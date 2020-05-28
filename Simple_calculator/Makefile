@@ -1,6 +1,13 @@
-comp : lex.yy.o
-	  g++ -o lex.yy.o
+all: comp
 
-lex.yy.o :	lexer.l
+comp : lex.yy.o
+	  g++ -o comp lex.yy.o
+
+lex.yy.с :
 		flex lexer.l
-		cc lex.yy.c
+
+lex.yy.o : lex.yy.c
+		cc -c lex.yy.c
+
+clean :
+	rm comp lex.yy.o lex.yy.c
