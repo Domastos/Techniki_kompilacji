@@ -13,4 +13,5 @@
                 }
 [ \t\r\n]      ; // whitespace
 .              { return *yytext; }
+
 %%

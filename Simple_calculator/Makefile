@@ -3,7 +3,7 @@ all: comp
 comp : lex.yy.o
 	  g++ -o comp lex.yy.o
 
-lex.yy.с :
+lex.yy.с : lexer.l
 		flex lexer.l
 
 lex.yy.o : lex.yy.c

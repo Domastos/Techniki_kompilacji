@@ -8,7 +8,7 @@
 
 %%
 
-EVALUATE: EXPR '\n' { printf("%d\n", $$) } ;
+EVALUATE: EXPR          { printf("=%d\n", $$); } ;
 
 EXPR:    TERM
         | EXPR '+' TERM { $$ = $1 + $3; }
@@ -30,3 +30,9 @@ DIGIT:    '0' { $$=0; } | '1' { $$=1; } | '2' { $$=2; } | '3' { $$=3; }
 ;
 
 %%
+
+int main (void)
+{
+  yyparse();
+  return 0;
+}
