@@ -7,9 +7,9 @@
     inline void yyerror (char const *s) {
         std::cerr << s << std::endl;
     }
-
 %}
 
+%token NONE
 %token tBEGIN
 %token tEND
 %token tIF
@@ -18,22 +18,26 @@
 %token tASSIGN
 %token tIDENTIFIER
 %token tNUMBER
+%token DONE 0
 
 
-%start STATEMENT
+%start PROGRAM
 %left '>'
 %left '+'
 %left '-'
+
 %%
+PROGRAM: STATEMENTS DONE
+;
+
+STATEMENTS:    STATEMENT
+        | STATEMENT ';' STATEMENTS
+;
 
 STATEMENT: tIDENTIFIER tASSIGN EXPRESSION
 	| tIF EXPRESSION tTHEN STATEMENT
 	| tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT
 	| tBEGIN STATEMENTS tEND
-;
-
-STATEMENTS:    STATEMENT
-        | STATEMENT ';' STATEMENTS
 ;
 
 EXPRESSION:    tNUMBER

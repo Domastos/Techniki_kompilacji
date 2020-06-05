@@ -1,7 +1,7 @@
 all: comp
 
 comp : main.o lexer.o parser.o
-	  	g++ -o comp  main.o lexer.o parser.o -lfl
+	  	g++ -o comp  main.o lexer.o parser.o
 
 main.o: main.cpp parser.hpp
 		g++ main.cpp -c -o main.o
