@@ -1,7 +1,13 @@
 %{
-    #include <stdio.h>
+    #include <iostream>
+    #include <string>
+    #include <sstream>
+    int yylex(void);
+    int yyparse(void);
+    inline void yyerror (char const *s) {
+        std::cerr << s << std::endl;
+    }
 
-    #define YYPRINT(file, type, value) fprintf(file, "%d", value);
 %}
 
 %token tBEGIN
@@ -14,7 +20,7 @@
 %token tNUMBER
 
 
-%start statement
+%start STATEMENT
 %left '>'
 %left '+'
 %left '-'
@@ -24,6 +30,7 @@ STATEMENT: tIDENTIFIER tASSIGN EXPRESSION
 	| tIF EXPRESSION tTHEN STATEMENT
 	| tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT
 	| tBEGIN STATEMENTS tEND
+;
 
 STATEMENTS:    STATEMENT
         | STATEMENT ';' STATEMENTS
@@ -34,21 +41,7 @@ EXPRESSION:    tNUMBER
         | EXPRESSION '+' EXPRESSION
         | EXPRESSION '-' EXPRESSION
         | EXPRESSION '>' EXPRESSION
-
 ;
 
 %%
 
-int main (void)
-{
-  yyparse();
-  return 0;
-}
-
-int error(char *s)
-{
-fprintf (stderr, "%s\n", s);
-return 0;
-}
-
-# include "lex.yy.c"

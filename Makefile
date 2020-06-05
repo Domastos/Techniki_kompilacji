@@ -1,19 +1,25 @@
 all: comp
 
-comp : parser.tab.o lex.yy.o
-	  g++ -o comp  parser.tab.o lex.yy.o
+comp : main.o lexer.o parser.o
+	  	g++ -o comp  main.o lexer.o parser.o -lfl
 
-parser.tab.o: parser.tab.c
-		cc -c -ly parser.tab.c
+main.o: main.cpp parser.hpp
+		g++ main.cpp -c -o main.o
 
-lex.yy.o : lex.yy.c
-		cc -c lex.yy.c
+lexer.o: lexer.cpp
+		g++ lexer.cpp -c -o lexer.o
 
-lex.yy.c: lexer.lex
-		flex lexer.lex
+lexer.cpp: lexer.lex parser.hpp
+		flex --outfile=lexer.cpp lexer.lex
 
-parser.tab.c:
-	bison -d parser.y
+parser.o: parser.cpp parser.hpp
+	g++ parser.cpp -c -o parser.o
 
-clean :
-	rm comp parser.tab.c parser.tab.h parser.tab.o lex.yy.c lex.yy.o
+parser.cpp parser.hpp: parser.y
+		bison --output=parser.cpp --defines=parser.hpp parser.y
+
+clean: cleanintermediate
+		rm -f parser.cpp parser.hpp lexer.cpp comp
+
+cleanintermediate:
+		rm -f *.o
