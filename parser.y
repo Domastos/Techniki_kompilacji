@@ -7,7 +7,10 @@
     inline void yyerror (char const *s) {
         std::cerr << s << std::endl;
     }
+
 %}
+
+%define parse.error verbose
 
 %token NONE
 %token tBEGIN
@@ -21,23 +24,24 @@
 %token DONE 0
 
 
-%start PROGRAM
+%start STATEMENT
 %left '>'
 %left '+'
 %left '-'
 
-%%
-PROGRAM: STATEMENTS DONE
-;
 
-STATEMENTS:    STATEMENT
-        | STATEMENT ';' STATEMENTS
-;
+%%
+
 
 STATEMENT: tIDENTIFIER tASSIGN EXPRESSION
 	| tIF EXPRESSION tTHEN STATEMENT
 	| tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT
 	| tBEGIN STATEMENTS tEND
+;
+
+STATEMENTS:    STATEMENT ';'
+        | STATEMENT ';' STATEMENTS
+
 ;
 
 EXPRESSION:    tNUMBER
@@ -48,4 +52,3 @@ EXPRESSION:    tNUMBER
 ;
 
 %%
-

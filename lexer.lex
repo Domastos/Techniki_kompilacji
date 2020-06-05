@@ -11,6 +11,8 @@ ID [A-Za-z][A-Za-z0-9]*
 
 %%
 
+" "          {}
+
 "begin"     {return tBEGIN;}
 
 "end"       {return tEND;}
@@ -30,8 +32,7 @@ ID [A-Za-z][A-Za-z0-9]*
 <<EOF>>             { return DONE; }
 
 .                   {
-                        tokenval = NONE;
-                        return yytext[0];
+                        return *yytext;
                     }
 
 %%
