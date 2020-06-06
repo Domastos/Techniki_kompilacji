@@ -18,7 +18,7 @@ ELSE   "else"
 VAR    "var"
 INT    "integer"
 REAL   "real"
-RELOP  <>|<=|>=|>|=|<
+RELATIONAL_OPERATOR  <>|<=|>=|>|=|<
 ID [A-Za-z][A-Za-z0-9]*
 
 
@@ -36,14 +36,14 @@ ID [A-Za-z][A-Za-z0-9]*
 
 {ELSE}      {return tELSE;}
 
-{RELOP}     {std::string val = std::string(yytext);
-             if(val == "<>") yylval = Relop::NotEqual;
-             if(val == "<=") yylval = Relop::LesserEqual;
-             if(val == ">=") yylval = Relop::GreaterEqual;
-             if(val == ">") yylval = Relop::Greater;
-             if(val == "=") yylval = Relop::Equal;
-             if(val == "<") yylval = Relop::Lesser;
-             return tRELOP;}
+{RELATIONAL_OPERATOR}     {std::string val = std::string(yytext);
+             if(val == "<>") yylval = RelationOperator::NotEqual;
+             if(val == "<=") yylval = RelationOperator::LesserEqual;
+             if(val == ">=") yylval = RelationOperator::GreaterEqual;
+             if(val == ">") yylval = RelationOperator::Greater;
+             if(val == "=") yylval = RelationOperator::Equal;
+             if(val == "<") yylval = RelationOperator::Lesser;
+             return tRELATIONAL_OPERATOR;}
 
 {VAR}       {return tVAR;}
 

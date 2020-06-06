@@ -6,7 +6,7 @@
 #include <string>
 #include "parser.hpp"
 
-enum Relop : int
+enum RelationOperator : int
 {
     NotEqual,
     LesserEqual,
