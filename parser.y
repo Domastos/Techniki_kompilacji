@@ -2,6 +2,7 @@
     #include <iostream>
     #include <string>
     #include <sstream>
+    #include "symtable.hpp"
     int yylex(void);
     int yyparse(void);
     inline void yyerror (char const *s) {
@@ -12,15 +13,21 @@
 
 %define parse.error verbose
 
+
 %token NONE
+%token tPROGRAM
 %token tBEGIN
 %token tEND
 %token tIF
 %token tTHEN
 %token tELSE
+%token tVAR
+%token tINT
+%token tREAL
 %token tASSIGN
 %token tIDENTIFIER
 %token tNUMBER
+%token tRELOP
 %token DONE 0
 
 
@@ -41,7 +48,6 @@ STATEMENT: tIDENTIFIER tASSIGN EXPRESSION
 
 STATEMENTS:    STATEMENT ';'
         | STATEMENT ';' STATEMENTS
-
 ;
 
 EXPRESSION:    tNUMBER

@@ -9,13 +9,13 @@ main.o: main.cpp parser.hpp
 lexer.o: lexer.cpp
 		g++ lexer.cpp -c -o lexer.o
 
-lexer.cpp: lexer.lex parser.hpp
+lexer.cpp: lexer.lex parser.hpp symtable.hpp
 		flex --outfile=lexer.cpp lexer.lex
 
 parser.o: parser.cpp parser.hpp
 	g++ parser.cpp -c -o parser.o
 
-parser.cpp parser.hpp: parser.y
+parser.cpp parser.hpp: parser.y symtable.hpp
 		bison --output=parser.cpp --defines=parser.hpp parser.y
 
 clean: cleanintermediate

@@ -4,36 +4,65 @@
 
 %{
     #include "parser.hpp"
+    #include "symtable.hpp"
     int tokenval;
 %}
 
+SPACE  [ \t\r\n]+
+PROGRAM "program"
+BEGIN  "begin"
+END    "end"
+IF     "if"
+THEN   "then"
+ELSE   "else"
+VAR    "var"
+INT    "integer"
+REAL   "real"
+RELOP  <>|<=|>=|>|=|<
 ID [A-Za-z][A-Za-z0-9]*
+
 
 %%
 
-" "          {}
+{PROGRAM}   {return tPROGRAM;}
 
-"begin"     {return tBEGIN;}
+{BEGIN}     {return tBEGIN;}
 
-"end"       {return tEND;}
+{END}       {return tEND;}
 
-"if"        {return tIF;}
+{IF}        {return tIF;}
 
-"then"      {return tTHEN;}
+{THEN}      {return tTHEN;}
 
-":="        {return tASSIGN;}
+{ELSE}      {return tELSE;}
+
+{RELOP}     {std::string val = std::string(yytext);
+             if(val == "<>") yylval = Relop::NotEqual;
+             if(val == "<=") yylval = Relop::LesserEqual;
+             if(val == ">=") yylval = Relop::GreaterEqual;
+             if(val == ">") yylval = Relop::Greater;
+             if(val == "=") yylval = Relop::Equal;
+             if(val == "<") yylval = Relop::Lesser;
+             return tRELOP;}
+
+{VAR}       {return tVAR;}
+
+
+{INT}       {return tINT;}
+
+{REAL}      {return tREAL;}
 
 {ID}        {return tIDENTIFIER;}
 
+":="        {return tASSIGN;}
+
 [0-9]+      {return tNUMBER;}
 
-[\t\r\n]
+{SPACE}     {/*DO NOTHING*/}
 
 <<EOF>>             { return DONE; }
 
-.                   {
-                        return *yytext;
-                    }
+.                   {return *yytext;}
 
 %%
 
