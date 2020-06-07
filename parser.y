@@ -9,6 +9,8 @@
         std::cerr << s << std::endl;
     }
 
+    std::vector<int> Identifiers;
+    std::vector<int> ParamIdentifiers;
 %}
 
 %define parse.error verbose
@@ -45,7 +47,9 @@
 
 
 %%
-COMPILATION_UNIT: PROGRAM
+COMPILATION_UNIT: PROGRAM {cout << "\njump.i #" << "start:" << endl;
+			  for (int i = 0; i<Identifiers.size(); i++)
+			  	cout << Identifiers[i] << endl;}
 ;
 
 PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIERS')' ';'
@@ -54,20 +58,20 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIERS')' ';'
  	  COMPOUND_STATEMENT'.'
 ;
 
-IDENTIFIERS: tIDENTIFIER
-	| tIDENTIFIER ',' IDENTIFIERS
+IDENTIFIERS: tIDENTIFIER {Identifiers.push_back($1);}
+	| tIDENTIFIER ',' IDENTIFIERS {Identifiers.push_back($3);}
 ;
 
-DECLARATIONS: DECLARATIONS tVAR IDENTIFIERS ':' TYPE ';'
+DECLARATIONS: DECLARATIONS tVAR IDENTIFIERS ':' TYPE ';' {}
 	| %empty
 ;
 
 TYPE: STANDARD_TYPE|
-	tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE
+	tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE {std::cerr << "UNSUPPORTED" << "\n";}
 ;
 
-STANDARD_TYPE: 	tINT
-	| tREAL
+STANDARD_TYPE: 	tINT {$$ = tINT;}
+	| tREAL {$$ = tREAL;}
 ;
 
 SUBPROGRAM_DECLARATIONS: SUBPROGRAM_DECLARATIONS SUBPROGRAM_DECLARATION ';'

@@ -6,6 +6,9 @@ comp : main.o lexer.o parser.o
 main.o: main.cpp parser.hpp
 		g++ main.cpp -c -o main.o
 
+symtable.o: symtable.cpp symtable.hpp
+		g++ symtable.cpp -c -o symtable.o
+
 lexer.o: lexer.cpp
 		g++ lexer.cpp -c -o lexer.o
 

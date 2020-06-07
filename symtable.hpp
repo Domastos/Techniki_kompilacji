@@ -46,21 +46,16 @@ class LabelInf {
 public:
     string name;
 };
-//
-//class SymbolTable {
-//public:
-//    SymbolTable() {
-//        vectorOfGlobals = new vector<VariableInf>();
-//        vectorOfLocals = new vector<VariableInf>();
-//        vectorOfLables = new vector<LableInf>();
-//    }
-//    vector<VariableInf> vectorOfGlobals; //vector of variables ma adresy do objektów globalnych
-//    vector<VariableInf> vectorOfLocals; //vector of variables ma adresy do objektów lokalnych
-//    vector<LableInf> vectorOfLables; //vector of variables ma adresy do labłów
-//    void insertVariable(VariableInf);
-//    void cleanStack();
-//    int getAdress(string Adress);
-//};
+
+class SymbolTable {
+public:
+    vector<VariableInf> vectorOfGlobals; //vector of variables ma adresy do objektów globalnych
+    vector<VariableInf> vectorOfLocals; //vector of variables ma adresy do objektów lokalnych
+    vector<LabelInf> vectorOfLables; //vector of variables ma adresy do labłów
+    void insertVariable(VariableInf);
+    void cleanStack();
+    int getAdress(string Adress);
+};
 
 
 
