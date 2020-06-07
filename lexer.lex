@@ -8,6 +8,7 @@
     int tokenval;
 %}
 
+
 SPACE  [ \t\r\n]+
 PROGRAM "program"
 BEGIN  "begin"
@@ -18,7 +19,18 @@ ELSE   "else"
 VAR    "var"
 INT    "integer"
 REAL   "real"
+ARRAY  "array"
+OF     "of"
+FUNCTION "function"
+PROCEDURE "procedure"
+WHILE     "while"
+DO        "do"
+OR        "or"
+NOT       "not"
 RELATIONAL_OPERATOR  <>|<=|>=|>|=|<
+SIGN                 \+|-
+MULOP                \*|\/|(div)|(mod)|(and)
+
 ID [A-Za-z][A-Za-z0-9]*
 
 
@@ -52,11 +64,41 @@ ID [A-Za-z][A-Za-z0-9]*
 
 {REAL}      {return tREAL;}
 
+{ARRAY}     {return tARRAY;}
+
+{OF}        {return tOF;}
+
+{FUNCTION}  {return tFUNCTION;}
+
+{PROCEDURE} {return tPROCEDURE;}
+
+{WHILE}     {return tWHILE;}
+
+{DO}        {return tDO;}
+
+{OR}        {return tOR;}
+
+{NOT}       {return tNOT;}
+
+{SIGN}      {std::string val = std::string(yytext);
+             if(val== "+") yylval = Sign::Positive;
+             if(val== "-") yylval = Sign::Negative;
+             return tSIGN;}
+
+{MULOP}     {std::string val = std::string(yytext);
+             if(val == "*") yylval = Mulop::Multiply;
+             if(val == "/") yylval = Mulop::Divide;
+             if(val == "div") yylval = Mulop::Div;
+             if(val == "mod") yylval = Mulop::Modulo;
+             if(val == "and") yylval = Mulop::And;
+             return tMULOP;}
+
 {ID}        {return tIDENTIFIER;}
 
 ":="        {return tASSIGN;}
 
 [0-9]+      {return tNUMBER;}
+
 
 {SPACE}     {/*DO NOTHING*/}
 
