@@ -9,29 +9,40 @@
 %}
 
 
-SPACE  [ \t\r\n]+
-PROGRAM "program"
-BEGIN  "begin"
-END    "end"
-IF     "if"
-THEN   "then"
-ELSE   "else"
-VAR    "var"
-INT    "integer"
-REAL   "real"
-ARRAY  "array"
-OF     "of"
-FUNCTION "function"
-PROCEDURE "procedure"
-WHILE     "while"
-DO        "do"
-OR        "or"
-NOT       "not"
+COMMENT     \{[^\{]*\}
+SPACE       [ \t\r]+
+NEWLINE     [\n]
+PROGRAM     "program"
+BEGIN       "begin"
+END         "end"
+IF          "if"
+THEN        "then"
+ELSE        "else"
+VAR         "var"
+INT         "integer"
+REAL        "real"
+ARRAY       "array"
+OF          "of"
+FUNCTION    "function"
+PROCEDURE   "procedure"
+WHILE       "while"
+DO          "do"
+OR          "or"
+NOT         "not"
+
 RELATIONAL_OPERATOR  <>|<=|>=|>|=|<
 SIGN                 \+|-
 MULOP                \*|\/|(div)|(mod)|(and)
 
-ID [A-Za-z][A-Za-z0-9]*
+DIGIT               [0-9]
+DIGITS              {DIGIT}+
+OPTIONAL_FRACTION   (\.{DIGITS})?
+OPTIONAL_EXPONENT  ([Ee]([+-]?){DIGITS})?
+NUMBER             {DIGITS}{OPTIONAL_FRACTION}{OPTIONAL_EXPONENT}
+
+LETTER             [a-zA-Z]
+ID                 {LETTER}({LETTER}|{DIGIT})*
+END_PROGRAM        [\(\)\,\;\:\.\[\]]{1}
 
 
 %%
@@ -97,14 +108,15 @@ ID [A-Za-z][A-Za-z0-9]*
 
 ":="        {return tASSIGN;}
 
-[0-9]+      {return tNUMBER;}
+{NUMBER}    {return tNUMBER;}
 
+{COMMENT}   {/*DO NOTHING*/}
 
 {SPACE}     {/*DO NOTHING*/}
 
-<<EOF>>             { return DONE; }
+{NEWLINE}   {/*DO NOTHING*/}
 
-.                   {return *yytext;}
+{END_PROGRAM}   {return *yytext;}
 
 %%
 
