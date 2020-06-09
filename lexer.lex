@@ -104,7 +104,13 @@ END_PROGRAM        [\(\)\,\;\:\.\[\]]{1}
              if(val == "and") yylval = Mulop::And;
              return tMULOP;}
 
-{ID}        {return tIDENTIFIER;}
+{ID}        { VariableInf variableInf;
+              variableInf.global = 1;
+              variableInf.size = tIDENTIFIER;
+              variableInf.name = string(yytext);
+              SymbolTable::vectorOfSymbols.push_back(variableInf);
+
+              return tIDENTIFIER;}
 
 ":="        {return tASSIGN;}
 

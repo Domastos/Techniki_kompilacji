@@ -1,7 +1,7 @@
 all: comp
 
-comp : main.o lexer.o parser.o
-	  	g++ -o comp  main.o lexer.o parser.o
+comp : main.o lexer.o parser.o symtable.o
+	  	g++ -o comp  main.o lexer.o parser.o symtable.o
 
 main.o: main.cpp parser.hpp
 		g++ main.cpp -c -o main.o
@@ -9,7 +9,7 @@ main.o: main.cpp parser.hpp
 symtable.o: symtable.cpp symtable.hpp
 		g++ symtable.cpp -c -o symtable.o
 
-lexer.o: lexer.cpp
+lexer.o: lexer.cpp symtable.hpp
 		g++ lexer.cpp -c -o lexer.o
 
 lexer.cpp: lexer.lex parser.hpp symtable.hpp

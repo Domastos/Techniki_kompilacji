@@ -48,15 +48,14 @@ public:
 };
 
 class SymbolTable {
+//static dla tego ze Symtable bedzie 1(zamiast extern)
 public:
-    vector<VariableInf> vectorOfGlobals; //vector of variables ma adresy do objektów globalnych
-    vector<VariableInf> vectorOfLocals; //vector of variables ma adresy do objektów lokalnych
-    vector<LabelInf> vectorOfLables; //vector of variables ma adresy do labłów
-    void insertVariable(VariableInf);
-    void cleanStack();
-    int getAdress(string Adress);
+    static vector<VariableInf> vectorOfSymbols; //vector of variables ma adresy do objektów
+    static void insertVariable(VariableInf);
+    static void cleanStack();
+    static int getAdress(string Adress);
+    static void printSymbolTable();
 };
-
 
 
 #endif //TK_SYMTABLE_H
