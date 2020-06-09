@@ -42,7 +42,7 @@ NUMBER             {DIGITS}{OPTIONAL_FRACTION}{OPTIONAL_EXPONENT}
 
 LETTER             [a-zA-Z]
 ID                 {LETTER}({LETTER}|{DIGIT})*
-END_PROGRAM        [\(\)\,\;\:\.\[\]]{1}
+END_PROGRAM        .{1}
 
 
 %%

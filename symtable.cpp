@@ -1,5 +1,7 @@
 #include "symtable.hpp"
 
+vector<VariableInf> SymbolTable::vectorOfSymbols;
+
 void SymbolTable::insertVariable(VariableInf){
 
 }
