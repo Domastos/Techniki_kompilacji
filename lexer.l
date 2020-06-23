@@ -109,7 +109,6 @@ END_PROGRAM        .{1}
               variableInf.size = tIDENTIFIER;
               variableInf.name = string(yytext);
               SymbolTable::vectorOfSymbols.push_back(variableInf);
-
               return tIDENTIFIER;}
 
 ":="        {return tASSIGN;}

@@ -1,10 +1,13 @@
 %{
-    #include <iostream>
+    #define YYDEBUG 1
+	
+	#include <iostream>
     #include <string>
     #include <sstream>
     #include "symtable.hpp"
     int yylex(void);
     int yyparse(void);
+	
     inline void yyerror (char const *s) {
         std::cerr << s << std::endl;
     }
@@ -47,22 +50,20 @@
 
 
 %%
-COMPILATION_UNIT: PROGRAM {cout << "\njump.i #" << "start:" << endl;
-			  for (int i = 0; i<Identifiers.size(); i++)
-			  	cout << Identifiers[i] << endl;}
+COMPILATION_UNIT: PROGRAM {cout << "\njump.i #" << "start:" << endl;}
 ;
 
-PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIERS')' ';'
+PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
  	  DECLARATIONS
  	  SUBPROGRAM_DECLARATIONS
  	  COMPOUND_STATEMENT'.'
 ;
 
-IDENTIFIERS: tIDENTIFIER {Identifiers.push_back($1);}
-	| tIDENTIFIER ',' IDENTIFIERS {Identifiers.push_back($3);}
+IDENTIFIER_LIST: tIDENTIFIER {Identifiers.push_back($1);}
+	| tIDENTIFIER ',' IDENTIFIER_LIST {Identifiers.push_back($3);}
 ;
 
-DECLARATIONS: DECLARATIONS tVAR IDENTIFIERS ':' TYPE ';' {}
+DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';' {}
 	| %empty
 ;
 
@@ -89,15 +90,16 @@ ARGUMENTS: '('PARAMETR_LIST')'
 	| %empty
 ;
 
-PARAMETR_LIST: IDENTIFIERS ':' TYPE
-	| PARAMETR_LIST ';' IDENTIFIERS ':' TYPE
+PARAMETR_LIST: IDENTIFIER_LIST ':' TYPE
+	| PARAMETR_LIST ';' IDENTIFIER_LIST ':' TYPE
 ;
 
 COMPOUND_STATEMENT: tBEGIN OPTIONAL_STATEMENTS tEND
 ;
 
 OPTIONAL_STATEMENTS: STATEMENTS
-	| %empty;
+	| %empty
+;
 
 STATEMENTS:    STATEMENT
         | STATEMENT ';' STATEMENTS

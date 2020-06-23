@@ -12,8 +12,8 @@ symtable.o: symtable.cpp symtable.hpp
 lexer.o: lexer.cpp symtable.hpp
 		g++ lexer.cpp -c -o lexer.o
 
-lexer.cpp: lexer.lex parser.hpp symtable.hpp
-		flex --outfile=lexer.cpp lexer.lex
+lexer.cpp: lexer.l parser.hpp symtable.hpp
+		flex --outfile=lexer.cpp lexer.l
 
 parser.o: parser.cpp parser.hpp
 	g++ parser.cpp -c -o parser.o
