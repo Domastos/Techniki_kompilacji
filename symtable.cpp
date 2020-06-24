@@ -23,6 +23,6 @@ int SymbolTable::getAdress(string ID){
 
 void SymbolTable::printSymbolTable(){
     for (int i=0; i<vectorOfSymbols.size(); i++){
-        cout << vectorOfSymbols[i].name << " " << vectorOfSymbols[i].size << endl;
+        cout << vectorOfSymbols[i].name << std::setw(6) << vectorOfSymbols[i].size << endl;
     }
 }

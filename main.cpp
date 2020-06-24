@@ -16,29 +16,31 @@ int main ()
     // std::cin >> name;
     std::string path = "Tests";
 
-    for (const auto & entry : std::filesystem::directory_iterator(path))
+    for (const auto & entry : std::filesystem::directory_iterator(path)){
+       
         std::cout << entry.path() << std::endl;
-
-    std::ifstream infile;
-    infile.open("Tests.txt");
-    if(!infile){
-        std::cerr << "No such file in directory" << std::endl;
-        return 1;
+        yyin = fopen(entry.path().string().c_str(), "r");
+        yyparse();
+        fclose(yyin);
+        SymbolTable::printSymbolTable();
     }
-    std::string line;
-    while (std::getline(infile, line))
-    {
-        std::cout << line << std::endl;
-    }
+    // std::ifstream infile;
+    // infile.open("Tests.txt");
+    // if(!infile){
+    //     std::cerr << "No such file in directory" << std::endl;
+    //     return 1;
+    // }
+    // std::string line;
+    // while (std::getline(infile, line))
+    // {
+    //     std::cout << line << std::endl;
+    // }
 
-    yyin = fopen("Tests.txt", "r");
-    yyparse();
-    SymbolTable::printSymbolTable();
-
-    infile.close(); //zamyka printowany w konsoli plik
-    fclose(yyin); //zamyka plik odczytuwany parserem
+    // infile.close(); //zamyka printowany w konsoli plik
+    //zamyka plik odczytuwany parserem
     return 0;
 }
+
 
 
 
