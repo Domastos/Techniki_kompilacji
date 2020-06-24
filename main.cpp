@@ -24,20 +24,7 @@ int main ()
         fclose(yyin);
         SymbolTable::printSymbolTable();
     }
-    // std::ifstream infile;
-    // infile.open("Tests.txt");
-    // if(!infile){
-    //     std::cerr << "No such file in directory" << std::endl;
-    //     return 1;
-    // }
-    // std::string line;
-    // while (std::getline(infile, line))
-    // {
-    //     std::cout << line << std::endl;
-    // }
-
-    // infile.close(); //zamyka printowany w konsoli plik
-    //zamyka plik odczytuwany parserem
+    
     return 0;
 }
 
