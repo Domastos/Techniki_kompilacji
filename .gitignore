@@ -2,3 +2,10 @@
 .vscode
 cmake-build-debug
 .gitignore
+main.o
+parser.o
+parser.cpp
+parser.hpp
+symtable.o
+lexer.cpp
+lexer.o

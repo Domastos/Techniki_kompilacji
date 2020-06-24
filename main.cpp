@@ -22,8 +22,13 @@ int main ()
     {
         std::cout << line << std::endl;
     }
+
+    yyin = fopen("Tests.txt", "r");
     yyparse();
     SymbolTable::printSymbolTable();
-    infile.close();
+
+
+    infile.close(); //zamyka printowany w konsoli plik
+    fclose(yyin); //zamyka plik odczytuwany parserem
     return 0;
 }
