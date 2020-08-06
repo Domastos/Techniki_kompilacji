@@ -1,32 +1,39 @@
-CXX = g++ 
-CXXFLAGS = -std=c++17
+DEBUG ?= 0
+CXX = g++
 
+ifeq ($(DEBUG), 0)
+	CPPFLAGS=-Wall -Wextra -O2
+	LDFLAGS=
+	BISONFLAGS=
+else
+	CPPFLAGS=-Wall -Wextra -O0 -g -ggdb
+	LDFLAGS=
+	BISONFLAGS=
+endif
 
-all: comp
+BISONOUTPUT=--output=parser.cpp --defines=parser.hpp parser.y
 
-comp : main.o lexer.o parser.o symtable.o
-	  	g++ -std=c++17 -o comp  main.o lexer.o parser.o symtable.o
+SOURCES=main.cpp symtable.cpp parser.cpp lexer.cpp
+HEADERS=symtable.hpp parser.hpp
+OBJMODELS=lexer.o parser.o symtable.o
 
-main.o: main.cpp parser.hpp
-		g++ -std=c++17 main.cpp -c -o main.o
-
-symtable.o: symtable.cpp symtable.hpp
-		g++ -std=c++17 symtable.cpp -c -o symtable.o
-
-lexer.o: lexer.cpp symtable.hpp
-		g++ -std=c++17 lexer.cpp -c -o lexer.o
-
-lexer.cpp: lexer.l parser.hpp symtable.hpp
+lexer.cpp: lexer.l 
 		flex --outfile=lexer.cpp lexer.l
 
-parser.o: parser.cpp parser.hpp
-		g++ -std=c++17 parser.cpp -c -o parser.o
+parser.cpp: parser.y symtable.hpp
+		bison $(BISONFLAGS) $(BISONOUTPUT)
 
-parser.cpp parser.hpp: parser.y symtable.hpp
-		bison --output=parser.cpp --defines=parser.hpp parser.y
+%.o: %.cpp %.hpp
+	$(CXX) $(CPPFLAGS) -c $< -o $@ 
+
+comp: main.cpp $(OBJMODELS)
+	$(CXX) $(CPPFLAGS) $^ -o $@
+
+run: comp
+		./comp
 
 clean: cleanintermediate
-		rm -f parser.cpp parser.hpp lexer.cpp comp
+		rm -f parser.cpp lexer.cpp
 
 cleanintermediate:
 		rm -f *.o
