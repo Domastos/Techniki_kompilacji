@@ -32,6 +32,9 @@ comp: main.cpp $(OBJMODELS)
 run: comp
 		./comp "Tests/pascal/t0.pas" "Tests/output/t0"
 
+valgrind: comp
+		valgrind ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
+
 cleanintermediate:
 		rm -f *.o
 
