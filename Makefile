@@ -13,9 +13,8 @@ endif
 
 BISONOUTPUT=--output=parser.cpp --defines=parser.hpp parser.y
 
-SOURCES=main.cpp symtable.cpp lexer.cpp parser.cpp
-HEADERS=gloval.hpp symtable.hpp parser.hpp 
-OBJMODELS=parser.o lexer.o  symtable.o
+SOURCES=parser.cpp lexer.cpp symtable.cpp
+OBJMODELS=$(SOURCES:.cpp=.o)
 
 parser.cpp: parser.y symtable.hpp
 		bison $(BISONFLAGS) $(BISONOUTPUT)
@@ -37,4 +36,4 @@ cleanintermediate:
 		rm -f *.o
 
 clean: cleanintermediate
-		rm -f parser.cpp lexer.cpp
+		rm -f parser.cpp parser.hpp lexer.cpp
