@@ -9,3 +9,4 @@ parser.hpp
 symtable.o
 lexer.cpp
 lexer.o
+Tests/output/*
