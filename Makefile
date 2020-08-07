@@ -30,7 +30,7 @@ comp: main.cpp $(OBJMODELS)
 
 
 run: comp
-		./comp
+		./comp "Tests/pascal/t0.pas" "Tests/output/t0"
 
 cleanintermediate:
 		rm -f *.o

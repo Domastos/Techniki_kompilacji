@@ -6,6 +6,7 @@
     #include "parser.hpp"
     #include "symtable.hpp"
     int tokenval;
+    int lineno = 1;
 %}
 
 
@@ -119,7 +120,7 @@ END_PROGRAM        .{1}
 
 {SPACE}     {/*DO NOTHING*/}
 
-{NEWLINE}   {/*DO NOTHING*/}
+{NEWLINE}   {lineno++;}
 
 {END_PROGRAM}   {return *yytext;}
 

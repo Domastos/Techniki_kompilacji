@@ -1,5 +1,7 @@
 #include "global.hpp"
 
+std::ofstream outputStream;
+
 static bool has_suffix(const std::string &str, const std::string &suffix);
 static std::string getFileOutputName(int argc, char *argv[]);
 
@@ -30,9 +32,27 @@ int main(int argc, char *argv[])
         std::cerr<<"Error: file not found"<<std::endl;
         return -1;
     }
+    
+    yyin = pascal_file;
+    //start tworzenia pliku asm
+    outputStream.open(getFileOutputName(argc, argv) + ".asm", std::ofstream::trunc);
+
+    if (!outputStream.is_open()) {
+		std::cerr<<"Error: could not open the file"<<std::endl;
+		return -1;
+	}
+
+    std::stringstream writeASM;
+    writeASM << "        jump.i  #lab0                   ;jump.i  lab0";
+    outputStream.write(writeASM.str().c_str(), writeASM.str().size());
+
+
 
     yyparse();
     SymbolTable::printSymbolTable();
+
+    fclose(pascal_file);
+	yylex_destroy();
     return 0;
 }
 
