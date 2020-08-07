@@ -32,8 +32,8 @@ comp: main.cpp $(OBJMODELS)
 run: comp
 		./comp
 
-clean: cleanintermediate
-		rm -f parser.cpp lexer.cpp
-
 cleanintermediate:
 		rm -f *.o
+
+clean: cleanintermediate
+		rm -f parser.cpp lexer.cpp
