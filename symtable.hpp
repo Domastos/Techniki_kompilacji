@@ -8,8 +8,6 @@
 #include <vector>
 #include <iomanip>
 
-#include "parser.hpp"
-
 using namespace std;
 
 enum RelationOperator : int

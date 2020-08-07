@@ -13,21 +13,22 @@ endif
 
 BISONOUTPUT=--output=parser.cpp --defines=parser.hpp parser.y
 
-SOURCES=main.cpp symtable.cpp parser.cpp lexer.cpp
-HEADERS=symtable.hpp parser.hpp
-OBJMODELS=lexer.o parser.o symtable.o
-
-lexer.cpp: lexer.l 
-		flex --outfile=lexer.cpp lexer.l
+SOURCES=main.cpp symtable.cpp lexer.cpp parser.cpp
+HEADERS=gloval.hpp symtable.hpp parser.hpp 
+OBJMODELS=parser.o lexer.o  symtable.o
 
 parser.cpp: parser.y symtable.hpp
 		bison $(BISONFLAGS) $(BISONOUTPUT)
+
+lexer.cpp: lexer.l 
+		flex --outfile=lexer.cpp lexer.l
 
 %.o: %.cpp %.hpp
 	$(CXX) $(CPPFLAGS) -c $< -o $@ 
 
 comp: main.cpp $(OBJMODELS)
 	$(CXX) $(CPPFLAGS) $^ -o $@
+
 
 run: comp
 		./comp
