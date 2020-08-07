@@ -13,27 +13,28 @@ endif
 
 BISONOUTPUT=--output=parser.cpp --defines=parser.hpp parser.y
 
-SOURCES=parser.cpp lexer.cpp symtable.cpp
+SOURCES = parser.cpp lexer.cpp symtable.cpp emitter.cpp 
+HEADERS = $(SOURCES:.cpp=.hpp)
 OBJMODELS=$(SOURCES:.cpp=.o)
 
-parser.cpp: parser.y symtable.hpp
+parser.cpp: parser.y
 		bison $(BISONFLAGS) $(BISONOUTPUT)
 
 lexer.cpp: lexer.l 
 		flex --outfile=lexer.cpp lexer.l
 
 %.o: %.cpp %.hpp
-	$(CXX) $(CPPFLAGS) -c $< -o $@ 
+		$(CXX) $(CPPFLAGS) -c $< -o $@ 
 
 comp: main.cpp $(OBJMODELS)
-	$(CXX) $(CPPFLAGS) $^ -o $@
+		$(CXX) $(CPPFLAGS) $^ -o $@
 
 
 run: comp
 		./comp "Tests/pascal/t0.pas" "Tests/output/t0"
 
 valgrind: comp
-		valgrind ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
+		valgrind -s ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
 
 cleanintermediate:
 		rm -f *.o

@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 
     yyparse();
-    SymbolTable::printSymbolTable();
+    // SymbolTable::printSymbolTable();
 
     fclose(pascal_file);
 	yylex_destroy();

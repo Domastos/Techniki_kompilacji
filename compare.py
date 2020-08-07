@@ -38,9 +38,10 @@ if not fail:
     for i,k in enumerate(lines[0]):
         if lines[0][i] != lines[1][i]:
             fail = True
-            print("\033[1;31;40m FAIL (%d)" % (i+1))
+            print("\033[1;31;40m ERROR (%d)" % (i+1))
             print(f"{lines[0][i]}\n{lines[1][i]}")
             break
+        sys.exit(-1)
 
     if not fail:
         print("\033[1;32;40m TEST PASSED")

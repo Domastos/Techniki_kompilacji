@@ -7,13 +7,12 @@
 #include <fstream>
 #include <filesystem>
 
+#include "emitter.hpp"
 #include "parser.hpp"
 #include "symtable.hpp"
 
-extern "C" int yylex();
-extern "C" FILE *yyin;
+extern FILE* yyin;
 
 int yylex_destroy();
-
 
 #endif

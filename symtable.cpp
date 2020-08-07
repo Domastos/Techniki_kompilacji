@@ -21,8 +21,8 @@ int SymbolTable::getAdress(string ID){
         return adress;
 }
 
-void SymbolTable::printSymbolTable(){
-    for (long unsigned int i=0; i<vectorOfSymbols.size(); i++){
-        cout << vectorOfSymbols[i].name << std::setw(6) << vectorOfSymbols[i].size << endl;
-    }
-}
+// void SymbolTable::printSymbolTable(){
+//     for (long unsigned int i=0; i<vectorOfSymbols.size(); i++){
+//         cout << vectorOfSymbols[i].name << std::setw(6) << vectorOfSymbols[i].size << endl;
+//     }
+// }

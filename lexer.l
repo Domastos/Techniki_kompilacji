@@ -2,9 +2,9 @@
 %option noinput
 %option nounput
 
-%{
+%{  
     #include "parser.hpp"
-    #include "symtable.hpp"
+    #include "emitter.hpp"
     int tokenval;
     int lineno = 1;
 %}
@@ -60,14 +60,10 @@ END_PROGRAM        .{1}
 
 {ELSE}      {return tELSE;}
 
-{RELATIONAL_OPERATOR}     {std::string val = std::string(yytext);
-             if(val == "<>") yylval = RelationOperator::NotEqual;
-             if(val == "<=") yylval = RelationOperator::LesserEqual;
-             if(val == ">=") yylval = RelationOperator::GreaterEqual;
-             if(val == ">") yylval = RelationOperator::Greater;
-             if(val == "=") yylval = RelationOperator::Equal;
-             if(val == "<") yylval = RelationOperator::Lesser;
-             return tRELATIONAL_OPERATOR;}
+{RELATIONAL_OPERATOR}      {
+                           yylval = getRelationalOperatorToken(std::string(yytext));
+                           return tRELATIONAL_OPERATOR;
+                           }
 
 {VAR}       {return tVAR;}
 
@@ -105,12 +101,7 @@ END_PROGRAM        .{1}
              if(val == "and") yylval = Mulop::And;
              return tMULOP;}
 
-{ID}        { VariableInf variableInf;
-              variableInf.global = 1;
-              variableInf.size = tIDENTIFIER;
-              variableInf.name = string(yytext);
-              SymbolTable::vectorOfSymbols.push_back(variableInf);
-              return tIDENTIFIER;}
+{ID}        {return tIDENTIFIER;}
 
 ":="        {return tASSIGN;}
 

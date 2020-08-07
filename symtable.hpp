@@ -12,31 +12,6 @@
 
 using namespace std;
 
-enum RelationOperator : int
-{
-    NotEqual,
-    LesserEqual,
-    GreaterEqual,
-    Greater,
-    Equal,
-    Lesser
-};
-
-enum Sign : int
-{
-    Positive,
-    Negative
-};
-
-enum Mulop : int
-{
-    Multiply,
-    Divide,
-    Div,
-    Modulo,
-    And
-};
-
 class VariableInf {
 public:
     bool global;
@@ -56,7 +31,7 @@ public:
     static void insertVariable(VariableInf);
     static void cleanStack();
     static int getAdress(string Adress);
-    static void printSymbolTable();
+    // static void printSymbolTable();
 };
 
 

@@ -12,3 +12,4 @@ done
 for file in Tests/assembly/*.asm; do
     python3 compare.py "$file" "Tests/output/$(basename "$file" .asm).asm"
 done
+
