@@ -1,7 +1,7 @@
 #!/bin/bash
 
 make comp
-rm Tests/assembly/*.asm
+rm Tests/output/*.asm
 
 # usage: ./xsame3.sh
 for file in Tests/pascal/*.pas; do
@@ -9,7 +9,6 @@ for file in Tests/pascal/*.pas; do
 done
 
 
-# for f in ../Tests/assembly/*.asm; do
-#     echo -n "$f: "
-#     python3 xsame2.py $f
-# done
+for file in Tests/assembly/*.asm; do
+    python3 compare.py "$file" "Tests/output/$(basename "$file" .asm).asm"
+done
