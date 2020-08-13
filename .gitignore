@@ -11,3 +11,5 @@ lexer.cpp
 lexer.o
 emitter.o
 Tests/output/*
+Tests/assembly/*
+Tests/pascal/*
