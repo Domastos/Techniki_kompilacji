@@ -6,6 +6,7 @@
     #include <sstream>
     #include "symtable.hpp"
 	#include "emitter.hpp"
+	#include "error.hpp"
     int yylex(void);
     int yyparse(void);
 	bool isGlobal = true;
@@ -68,8 +69,10 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 	   }
 ;
 
-IDENTIFIER_LIST: tIDENTIFIER {}
-	| tIDENTIFIER ',' IDENTIFIER_LIST {}
+IDENTIFIER_LIST: tIDENTIFIER 
+	{checkIfVariableExists($1);}
+	| tIDENTIFIER ',' IDENTIFIER_LIST 
+	{checkIfVariableExists($3);}
 ;
 
 DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';' {}

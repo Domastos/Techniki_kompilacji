@@ -6,7 +6,7 @@
     #include "parser.hpp"
     #include "emitter.hpp"
     int tokenval;
-    int lineno = 1;
+    int lineno;
 %}
 
 

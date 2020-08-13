@@ -13,7 +13,7 @@ endif
 
 BISONOUTPUT=--output=parser.cpp --defines=parser.hpp parser.y
 
-SOURCES = parser.cpp lexer.cpp symtable.cpp emitter.cpp 
+SOURCES = parser.cpp lexer.cpp symtable.cpp emitter.cpp error.cpp
 HEADERS = $(SOURCES:.cpp=.hpp)
 OBJMODELS=$(SOURCES:.cpp=.o)
 
