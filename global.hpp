@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 #include <filesystem>
 
 #include "emitter.hpp"
@@ -15,6 +16,7 @@
 #define READ 		302
 #define LABEL 		303
 
+extern std::ofstream outputStream;
 extern FILE* yyin;
 
 int yylex_destroy();

@@ -66,3 +66,12 @@ int getMulopOperatorToken(std::string text){
         return -1;
 }
 
+void MakeASM::writeToStream(std::string str) {
+    stream << '\n'<< str;
+}
+
+void MakeASM::writeToFile() {
+    outputStream.write(stream.str().c_str(), stream.str().size());
+    stream.str(std::string()); //clear
+}
+

@@ -5,15 +5,16 @@
     #include <string>
     #include <sstream>
     #include "symtable.hpp"
+	#include "emitter.hpp"
     int yylex(void);
     int yyparse(void);
+	bool isGlobal = true;
 	
     inline void yyerror (char const *s) {
         std::cerr << s << std::endl;
     }
 
-    std::vector<int> Identifiers;
-    std::vector<int> ParamIdentifiers;
+    MakeASM makeasm;
 %}
 
 %define parse.error verbose
@@ -55,8 +56,16 @@ COMPILATION_UNIT: PROGRAM {}
 
 PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
  	  DECLARATIONS
- 	  SUBPROGRAM_DECLARATIONS
- 	  COMPOUND_STATEMENT'.'
+ 	  SUBPROGRAM_DECLARATIONS 
+	   {
+			makeasm.writeToStream("lab0:");
+	   }
+ 	  COMPOUND_STATEMENT
+	   '.'
+	   {
+		   makeasm.writeToStream("exit");
+		   makeasm.writeToFile();
+	   }
 ;
 
 IDENTIFIER_LIST: tIDENTIFIER {}
