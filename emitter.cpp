@@ -1,21 +1,68 @@
 #include "emitter.hpp"
 
-extern int getRelationalOperatorToken(std::string text)
+int getRelationalOperatorToken(std::string text)
 {   
-    std::string val = text;
+    enum RelationOperators : int
+    { 
+        NotEqual,
+        LesserEqual,
+        GreaterEqual,
+        Greater,
+        Equal,
+        Lesser
+    };
 
-    if(val == "<>") 
+    if(text == "<>") 
         return  RelationOperators::NotEqual;
-    else if(val == "<=") 
+    else if(text == "<=") 
         return  RelationOperators::LesserEqual;
-    else if(val == ">=") 
+    else if(text == ">=") 
         return  RelationOperators::GreaterEqual;
-    else if(val == ">")  
+    else if(text == ">")  
         return RelationOperators::Greater;
-    else if(val == "=")  
+    else if(text == "=")  
         return RelationOperators::Equal;
-    else if(val == "<")  
+    else if(text == "<")  
         return RelationOperators::Lesser;
     else
         return -1;
 }
+
+int getSignOperatorToken(std::string text)
+{   
+    enum Sign : int
+    {
+        Positive,
+        Negative
+    };
+
+    if(text == "<>") 
+        return  Sign::Positive;
+    else if(text == "<=") 
+        return  Sign::Negative;
+    else  
+        return -1;
+}
+
+int getMulopOperatorToken(std::string text){
+
+    enum Mulop : int
+    {
+        Multiply,
+        Divide,
+        Modulo,
+        And
+    };
+
+    if(text == "*") 
+        return  Mulop::Multiply;
+    else if(text == "/" || text == "div") 
+        return  Mulop::Divide;
+    else if(text == "mod")  
+        return Mulop::Modulo;
+    else if(text == "and")  
+        return Mulop::And;
+    else
+        return -1;
+}
+

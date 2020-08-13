@@ -5,32 +5,7 @@
 #include "global.hpp"
 
 extern int getRelationalOperatorToken(std::string text);
-
-enum RelationOperators : int
-{ 
-    NotEqual,
-    LesserEqual,
-    GreaterEqual,
-    Greater,
-    Equal,
-    Lesser
-};
-
-enum Sign : int
-{
-    Positive,
-    Negative
-};
-
-enum Mulop : int
-{
-    Multiply,
-    Divide,
-    Div,
-    Modulo,
-    And
-};
-
-
+extern int getSignOperatorToken(std::string text);
+extern int getMulopOperatorToken(std::string text);
 
 #endif

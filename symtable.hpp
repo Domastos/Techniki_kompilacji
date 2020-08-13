@@ -8,29 +8,39 @@
 #include <vector>
 #include <iomanip>
 
-#include "parser.hpp"
+#include "global.hpp"
 
-using namespace std;
 
-class VariableInf {
+
+class Symbol {
+private:
+    bool isReference;
+    bool isGlobal;
+    int token;
+    int type;
+    int address;
+    std::string name;
+
 public:
-    bool global;
-    int size;
-    string name;
-};
+    Symbol(std::string name, int token, int type);
+    void setIsReference(bool ref_condition);
+    void setIsGlobal(bool global_condition);
+    void setAddress(int sAdress);
 
-class LabelInf {
-public:
-    string name;
+    int getToken() const;
+    int getType() const;
+    int getAddress() const;
+    std::string getName() const;
 };
 
 class SymbolTable {
 //static dla tego ze Symtable bedzie 1(zamiast extern)
 public:
-    static vector<VariableInf> vectorOfSymbols; //vector of variables ma adresy do objektów
-    static void insertVariable(VariableInf);
+    SymbolTable();
+    static std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
+    static void insertSymbol(Symbol);
     static void cleanStack();
-    static int getAdress(string Adress);
+    static int getAdress(std::string Adress);
     // static void printSymbolTable();
 };
 

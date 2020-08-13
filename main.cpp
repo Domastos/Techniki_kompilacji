@@ -5,7 +5,7 @@ std::ofstream outputStream;
 static bool has_suffix(const std::string &str, const std::string &suffix);
 static std::string getFileOutputName(int argc, char *argv[]);
 
-extern vector<int> Identifiers;
+extern std::vector<int> Identifiers;
 
 int main(int argc, char *argv[])
 {   

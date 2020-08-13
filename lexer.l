@@ -88,17 +88,10 @@ END_PROGRAM        .{1}
 
 {NOT}       {return tNOT;}
 
-{SIGN}      {std::string val = std::string(yytext);
-             if(val== "+") yylval = Sign::Positive;
-             if(val== "-") yylval = Sign::Negative;
+{SIGN}      {yylval = getSignOperatorToken(std::string(yytext));
              return tSIGN;}
 
-{MULOP}     {std::string val = std::string(yytext);
-             if(val == "*") yylval = Mulop::Multiply;
-             if(val == "/") yylval = Mulop::Divide;
-             if(val == "div") yylval = Mulop::Div;
-             if(val == "mod") yylval = Mulop::Modulo;
-             if(val == "and") yylval = Mulop::And;
+{MULOP}     {yylval = getMulopOperatorToken(std::string(yytext));
              return tMULOP;}
 
 {ID}        {return tIDENTIFIER;}

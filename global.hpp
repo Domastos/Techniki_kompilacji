@@ -11,6 +11,10 @@
 #include "parser.hpp"
 #include "symtable.hpp"
 
+#define WRITE 		301
+#define READ 		302
+#define LABEL 		303
+
 extern FILE* yyin;
 
 int yylex_destroy();
