@@ -15,6 +15,8 @@ Symbol::Symbol(std::string sName, int sToken, int sType)
 
 void Symbol::setReferenceCondition(bool ref_condition){isReference = ref_condition;}
 void Symbol::setGlobalCondition(bool global_condition){isGlobal = global_condition;}
+void Symbol::setToken(int sToken){token = sToken;}
+void Symbol::setType(int sType){type = sType;}
 void Symbol::setAddress(int sAdress){address = sAdress;}
 
 int Symbol::getToken() const {return token;}
@@ -23,6 +25,8 @@ int Symbol::getAddress() const {return address;}
 std::string Symbol::getName() const {return name;}
 bool Symbol::checkIsGlobal() const {return isGlobal;}
 bool Symbol::checkIsReference() const {return isReference;}
+
+
 
 
 SymbolTable::SymbolTable(){
@@ -42,8 +46,38 @@ SymbolTable::SymbolTable(){
 	vectorOfSymbols.push_back(lab0);
 }
 
-void SymbolTable::insertSymbol(Symbol symbol){
+void SymbolTable::setGlobal(bool val){ Global = val;}
+bool SymbolTable::getGlobal() const {return Global;}
+
+int SymbolTable::insertSymbol(Symbol symbol){
+    symbol.setGlobalCondition(Global);
     vectorOfSymbols.push_back(symbol);
+    return 0;
+}
+
+int SymbolTable::editSymbolAtIndex(int index, int token, int type, int adress){
+    vectorOfSymbols[index].setToken(token);
+    vectorOfSymbols[index].setToken(type);
+    vectorOfSymbols[index].setToken(adress);
+    return 0;
+}
+
+int SymbolTable::lookUp(std::string name){
+
+#if DEBUG == 1
+    std::cout << "DEBUG: Starting lookup" << std::endl;
+#endif
+
+    int index = (int) (vectorOfSymbols.size() - 1);
+    for(; index>=0; index--){
+        if(vectorOfSymbols[index].getName() == name)
+            return index;
+    }
+
+#if DEBUG == 1
+    std::cout << "DEBUG: No identifier with name " << name << " found" << std::endl;
+#endif
+    return 0;
 }
 
 void SymbolTable::cleanStack(){
@@ -60,6 +94,18 @@ int SymbolTable::getAdress(std::string ID){
         }
         return adress;
 }
+
+// int SymbolTable::setSymbolAdress(int type) {
+//     switch (type)
+//     {
+//     case tINT:
+//         setSymbolAdress
+//         break;
+    
+//     default:
+//         break;
+//     }
+// }
 
 void SymbolTable::printScope(bool isGlobal){
     if (isGlobal) {
@@ -110,15 +156,17 @@ void SymbolTable::printTableHeader() {
 
 void SymbolTable::printSymbolTable(){
     int counter = 0;
-    std::cout << vectorOfSymbols.size() << std::endl;
+#if DEBUG == 1
+    std::cout << "DEBUG: size of symtable: " << vectorOfSymbols.size() << std::endl;
+#endif
+
     printTableHeader();
     for(auto &sym : vectorOfSymbols){
-        if(sym.getToken() != tIDENTIFIER) {
-            std::cout << counter++ << std::setw(3) << '|';
+        if(sym.getToken() != tIDENTIFIER){
+            std::cout << counter << std::setw(3) << '|';
             printScope(sym.checkIsGlobal());
             printSymbolParameters(sym);
-
+            counter++;
         }
-
     }
 }

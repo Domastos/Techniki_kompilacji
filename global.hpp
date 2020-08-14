@@ -12,6 +12,8 @@
 #include "parser.hpp"
 #include "symtable.hpp"
 
+#define DEBUG       1
+
 #define WRITE 		301
 #define READ 		302
 #define LABEL 		303

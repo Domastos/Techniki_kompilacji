@@ -23,6 +23,9 @@ private:
 
 public:
     Symbol(std::string name, int token, int type);
+
+    void setToken(int sToken);
+    void setType(int sType);
     void setReferenceCondition(bool ref_condition);
     void setGlobalCondition(bool global_condition);
     void setAddress(int sAdress);
@@ -38,16 +41,24 @@ public:
 
 class SymbolTable {
 private:
+    bool Global = true;
     void printScope(bool isGlobal);
     void printTableHeader();
     void printSymbolParameters(Symbol symbol);
-//static dla tego ze Symtable bedzie 1(zamiast extern)
+    int currentAddressStack = 0;
+    int currentTempStack = 0;
+    std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
+
 public:
     SymbolTable();
-    std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
-    void insertSymbol(Symbol);
+    void setGlobal(bool val);
+    bool getGlobal() const;
+    int insertSymbol(Symbol);
+    int editSymbolAtIndex(int index, int token, int type, int adress);
+    int lookUp(std::string name);
     void cleanStack();
     int getAdress(std::string Adress);
+    int setSymbolAdress(int Type);
     void printSymbolTable();
 };
 

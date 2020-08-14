@@ -15,6 +15,7 @@
         std::cerr << s << std::endl;
     }
 
+	std::vector<int> argsSupportVector;
     MakeASM makeasm;
 %}
 
@@ -70,17 +71,34 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 ;
 
 IDENTIFIER_LIST: tIDENTIFIER 
-	{checkIfVariableExists($1);}
+		{
+			checkIfVariableExists($1);
+			argsSupportVector.push_back($1);
+		}
 	| tIDENTIFIER ',' IDENTIFIER_LIST 
-	{checkIfVariableExists($3);}
+		{
+			checkIfVariableExists($3);
+			argsSupportVector.push_back($1);
+		}
 ;
 
-DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';' {}
+DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';' 
+		{
+			for(auto &index : argsSupportVector){
+				if($5 == tINT || $5 == tREAL){
+					symboltable.editSymbolAtIndex(index, tVAR, $5, 4);
+				} else{
+					std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
+					YYERROR;
+				}
+			}
+			argsSupportVector.clear();
+		}
 	| %empty
 ;
 
 TYPE: STANDARD_TYPE|
-	tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE {/*std::cerr << "UNSUPPORTED" << "\n";*/}
+	tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE {std::cerr << "UNSUPPORTED" << "\n";}
 ;
 
 STANDARD_TYPE: 	tINT {$$ = tINT;}

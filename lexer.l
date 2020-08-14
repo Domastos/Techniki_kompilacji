@@ -94,11 +94,19 @@ END_PROGRAM        .{1}
 {MULOP}     {yylval = getMulopOperatorToken(std::string(yytext));
              return tMULOP;}
 
-{ID}        {return tIDENTIFIER;}
-
 ":="        {return tASSIGN;}
 
-{NUMBER}    {return tNUMBER;}
+{ID}        {if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tIDENTIFIER, 0));
+            return tIDENTIFIER;}
+
+{DIGITS}    {if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tINT));
+            return tNUMBER;}
+
+{NUMBER}    {if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tREAL));
+            return tNUMBER;}
 
 {COMMENT}   {/*DO NOTHING*/}
 
