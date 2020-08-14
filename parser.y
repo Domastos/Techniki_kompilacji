@@ -77,28 +77,46 @@ IDENTIFIER_LIST: tIDENTIFIER
 		}
 	| tIDENTIFIER ',' IDENTIFIER_LIST 
 		{
+			#if DEBUG == 1
+			std::cout << "DEBUG: identifier list num: " << $3 << std::endl;
+			#endif
 			checkIfVariableExists($3);
-			argsSupportVector.push_back($1);
+			argsSupportVector.push_back($3);
 		}
 ;
 
 DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';' 
-		{
+		{	
+			#if DEBUG == 1
+			std::cout << "DEBUG: tVAR: " <<  $2 <<std::endl;
+			#endif
+
 			for(auto &index : argsSupportVector){
-				if($5 == tINT || $5 == tREAL){
-					symboltable.editSymbolAtIndex(index, tVAR, $5, 4);
-				} else{
-					std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
-					YYERROR;
+
+			#if DEBUG == 1
+			std::cout << "DEBUG: index: " << index <<std::endl;
+			#endif
+				switch($5) {
+                	case tINT:
+						symboltable.editSymbolAtIndex(index, tVAR, tINT, 4);
+						break;
+					case tREAL:
+						symboltable.editSymbolAtIndex(index, tVAR, tREAL, 8);
+						break;
+					default:
+						std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
+						YYERROR;
 				}
-			}
 			argsSupportVector.clear();
+			}
+
 		}
 	| %empty
 ;
 
-TYPE: STANDARD_TYPE|
-	tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE {std::cerr << "UNSUPPORTED" << "\n";}
+TYPE: STANDARD_TYPE {$$ = $1;}
+	| tARRAY '[' tNUMBER '.' '.' tNUMBER ']' tOF STANDARD_TYPE
+	 {std::cerr << "UNSUPPORTED" << "\n";}
 ;
 
 STANDARD_TYPE: 	tINT {$$ = tINT;}
@@ -149,11 +167,17 @@ PROCEDURE_STATEMENT: tIDENTIFIER
 	| tIDENTIFIER '(' EXPRESSION_LIST ')'
 ;
 
-EXPRESSION_LIST: EXPRESSION
+EXPRESSION_LIST: EXPRESSION 
+	{
+		argsSupportVector.push_back($1);
+	}
 	| EXPRESSION_LIST ',' EXPRESSION
+	{
+		argsSupportVector.push_back($3);
+	}
 ;
 
-EXPRESSION: SIMPLE_EXPRESSION
+EXPRESSION: SIMPLE_EXPRESSION 
 	| SIMPLE_EXPRESSION tRELATIONAL_OPERATOR SIMPLE_EXPRESSION
 ;
 

@@ -45,6 +45,7 @@ private:
     void printScope(bool isGlobal);
     void printTableHeader();
     void printSymbolParameters(Symbol symbol);
+    std::string tokenToString(int token);
     int currentAddressStack = 0;
     int currentTempStack = 0;
     std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
