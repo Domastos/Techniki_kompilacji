@@ -29,9 +29,11 @@ lexer.cpp: lexer.l
 comp: main.cpp $(OBJMODELS)
 		$(CXX) $(CPPFLAGS) $^ -o $@
 
-
-run: comp
+run_t0: comp
 		./comp "Tests/pascal/t0.pas" "Tests/output/t0"
+
+run_t15: comp
+		./comp "Tests/pascal/t15.pas" "Tests/output/t15"
 
 valgrind: comp
 		valgrind -s ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
@@ -40,4 +42,4 @@ cleanintermediate:
 		rm -f *.o
 
 clean: cleanintermediate
-		rm -f parser.cpp parser.hpp lexer.cpp
+		rm -f parser.cpp parser.hpp lexer.cpp comp

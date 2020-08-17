@@ -57,6 +57,7 @@ public:
     int insertSymbol(Symbol);
     int editSymbolAtIndex(int index, int token, int type, int adress);
     int lookUp(std::string name);
+    int lookUpAndInsert(std::string name, int token, int type);
     void cleanStack();
     int getAdress(std::string Adress);
     int setSymbolAdress(int Type);

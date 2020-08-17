@@ -56,7 +56,7 @@ int SymbolTable::insertSymbol(Symbol symbol){
 #endif
     symbol.setGlobalCondition(Global);
     vectorOfSymbols.push_back(symbol);
-    return 0;
+    return (int) (vectorOfSymbols.size() - 1);
 }
 
 int SymbolTable::editSymbolAtIndex(int index, int token, int type, int adress){
@@ -102,12 +102,20 @@ int SymbolTable::lookUp(std::string name){
     for(; index>=0; index--){
         if(vectorOfSymbols[index].getName() == name)
             return index;
+    return -1;
     }
 
 #if DEBUG == 1
     std::cout << "DEBUG: No identifier with name " << name << " found" << std::endl;
 #endif
     return 0;
+}
+
+int SymbolTable::lookUpAndInsert(std::string name, int token, int type){
+    int val = lookUp(name);
+    if(val == -1)
+        val = insertSymbol(Symbol(name, token, type));
+    return val;
 }
 
 void SymbolTable::cleanStack(){
@@ -150,24 +158,24 @@ void SymbolTable::printSymbolParameters(Symbol symbol){
         std::cout << std::setw(12) << "True" << std::setw(3) << "|";
         std::cout << std::setw(10) << symbol.getName() << std::setw(3) << "|" << std::endl;
     } else if(symbol.getToken() == tNUMBER) {
-        std::cout << std::setw(12) << "False" << "|" ;
+        std::cout << std::setw(12) << "False" << std::setw(3) << "|" ;
         std::cout << std::setw(10) << symbol.getName() << std::setw(3) << "|";
-        std::cout << tokenToString(symbol.getToken()) << "|\t";
-        std::cout << symbol.getType() << std::endl;
+        std::cout << std::setw(8) << tokenToString(symbol.getToken()) << std::setw(3) << "|";
+        std::cout << std::setw(8) << symbol.getType() << std::endl;
     } else if(symbol.getToken() == tVAR) {
         std::cout << std::setw(12) << "False" << std::setw(3) << "|" ;
         std::cout << std::setw(10) << symbol.getName() << std::setw(3) << "|" ;
-        std::cout << tokenToString(symbol.getToken()) << "|\t";
-        std::cout << symbol.getType() << "|\t" ;
-        std::cout << symbol.getAddress() << std::endl;
+        std::cout << std::setw(8) << tokenToString(symbol.getToken()) << std::setw(3) << "|";
+        std::cout << std::setw(8) << symbol.getType() << std::setw(3) << "|" ;
+        std::cout << std::setw(8) << symbol.getAddress() << std::endl;
     } else if(symbol.getToken() == tPROCEDURE || symbol.getToken() == LABEL) {
         std::cout << std::setw(12) << "False" << std::setw(3) << "|" ;
         std::cout << std::setw(10) << symbol.getName() << std::setw(3) << "|" ;
-        std::cout << tokenToString(symbol.getToken()) << std::endl;
+        std::cout << std::setw(8) << tokenToString(symbol.getToken()) << std::endl;
     } else if(symbol.getToken() == tFUNCTION) {
         std::cout << std::setw(12) << "False" << std::setw(3) << "|" ;
         std::cout << std::setw(10) << symbol.getName() << std::setw(3) << "|" ;
-        std::cout << tokenToString(symbol.getToken()) << std::endl;
+        std::cout << std::setw(8) << tokenToString(symbol.getToken()) << std::endl;
     }
 }
 
@@ -179,9 +187,9 @@ void SymbolTable::printTableHeader() {
     std::cout << std::setw(8) << "Scope" << std::setw(3) << "|";
     std::cout << std::setw(12) << "isReference" << std::setw(3) << "|";
     std::cout << std::setw(10) << "Name" << std::setw(3) << "|";
-    std::cout << "Token" << std::setw(5) << "|\t";
-    std::cout << "Type" << std::setw(5) << "|\t";
-    std::cout << "Adress" << std::endl;
+    std::cout << std::setw(8) << "Token" << std::setw(3) << "|";
+    std::cout << std::setw(8) << "Type" << std::setw(3) << "|";
+    std::cout << std::setw(8) << "Adress" << std::endl;
 }
 
 void SymbolTable::printSymbolTable(){

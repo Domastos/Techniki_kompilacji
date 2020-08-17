@@ -47,6 +47,16 @@ END_PROGRAM        .{1}
 
 
 %%
+{COMMENT}   {/*DO NOTHING*/}
+
+{SPACE}     {/*DO NOTHING*/}
+
+{NEWLINE}  {lineno++;}
+
+{INT}       {yylval = tINT; return tINT;}
+{REAL}      {yylval = tREAL; return tREAL;}
+
+{VAR}      {return tVAR;}
 
 {PROGRAM}   {return tPROGRAM;}
 
@@ -54,39 +64,33 @@ END_PROGRAM        .{1}
 
 {END}       {return tEND;}
 
+{NOT}       {return tNOT;}
+
+{OR}        {return tOR;}
+
 {IF}        {return tIF;}
 
 {THEN}      {return tTHEN;}
 
 {ELSE}      {return tELSE;}
 
-{RELATIONAL_OPERATOR}      {
-                           yylval = getRelationalOperatorToken(std::string(yytext));
-                           return tRELATIONAL_OPERATOR;
-                           }
+{DO}        {return tDO;}
 
-{VAR}       {return tVAR;}
-
-
-{INT}       {return tINT;}
-
-{REAL}      {return tREAL;}
-
-{ARRAY}     {return tARRAY;}
-
-{OF}        {return tOF;}
+{WHILE}     {return tWHILE;}
 
 {FUNCTION}  {return tFUNCTION;}
 
 {PROCEDURE} {return tPROCEDURE;}
 
-{WHILE}     {return tWHILE;}
+{ARRAY}     {return tARRAY;}
 
-{DO}        {return tDO;}
+{OF}        {return tOF;}
 
-{OR}        {return tOR;}
+{RELATIONAL_OPERATOR}      {
+                           yylval = getRelationalOperatorToken(std::string(yytext));
+                           return tRELATIONAL_OPERATOR;
+                           }
 
-{NOT}       {return tNOT;}
 
 {SIGN}      {yylval = getSignOperatorToken(std::string(yytext));
              return tSIGN;}
@@ -96,23 +100,24 @@ END_PROGRAM        .{1}
 
 ":="        {return tASSIGN;}
 
-{ID}        {if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tIDENTIFIER, 0));
+
+{ID}        {/*if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tIDENTIFIER, 0));*/
+            
+            yylval = symboltable.lookUpAndInsert(yytext, tIDENTIFIER, 0); 
             return tIDENTIFIER;}
 
-{DIGITS}    {if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tINT));
+{DIGITS}    {/*if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tINT));*/
+
+            yylval = symboltable.lookUpAndInsert(yytext, tNUMBER, tINT);
             return tNUMBER;}
 
-{NUMBER}    {if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tREAL));
+{NUMBER}    {/*if(!symboltable.lookUp(yytext))
+                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tREAL));*/
+
+            yylval = symboltable.lookUpAndInsert(yytext, tNUMBER, tREAL);
             return tNUMBER;}
-
-{COMMENT}   {/*DO NOTHING*/}
-
-{SPACE}     {/*DO NOTHING*/}
-
-{NEWLINE}   {lineno++;}
 
 {END_PROGRAM}   {return *yytext;}
 

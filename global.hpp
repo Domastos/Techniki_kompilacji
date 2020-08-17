@@ -13,6 +13,8 @@
 #include "symtable.hpp"
 
 #define DEBUG       1
+#define DEBUG_FACTOR 1
+
 
 #define WRITE 		301
 #define READ 		302

@@ -48,15 +48,23 @@
 %token tRELATIONAL_OPERATOR
 %token DONE 0
 
-
 %start COMPILATION_UNIT
 
-
 %%
-COMPILATION_UNIT: PROGRAM {}
+COMPILATION_UNIT: PROGRAM {
+	// for(int i=0; i<argsSupportVector.size(); i++){
+	// 	std::cout << argsSupportVector[i] << std::endl;
+	// }
+}
 ;
 
 PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
+		 {
+		  #if DEBUG == 1
+			std::cout << "DEBUG: program identifier: " << $2 << std::endl;
+			std::cout << std::string(40, '-') << std::endl;
+		   #endif
+		}
  	  DECLARATIONS
  	  SUBPROGRAM_DECLARATIONS 
 	   {
@@ -71,15 +79,20 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 ;
 
 IDENTIFIER_LIST: tIDENTIFIER 
-		{
+		{	
+			#if DEBUG == 1
+			std::cout << "DEBUG: identifier num: " << $1 << std::endl;
+			#endif
+
 			checkIfVariableExists($1);
 			argsSupportVector.push_back($1);
 		}
-	| tIDENTIFIER ',' IDENTIFIER_LIST 
+	| IDENTIFIER_LIST ',' tIDENTIFIER
 		{
 			#if DEBUG == 1
 			std::cout << "DEBUG: identifier list num: " << $3 << std::endl;
 			#endif
+
 			checkIfVariableExists($3);
 			argsSupportVector.push_back($3);
 		}
@@ -91,8 +104,8 @@ DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';'
 			std::cout << "DEBUG: tVAR: " <<  $2 <<std::endl;
 			#endif
 
+			// for(int index = 0; index < (int) argsSupportVector.size(), index++;) {
 			for(auto &index : argsSupportVector){
-
 			#if DEBUG == 1
 			std::cout << "DEBUG: index: " << index <<std::endl;
 			#endif
@@ -107,9 +120,9 @@ DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';'
 						std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
 						YYERROR;
 				}
-			argsSupportVector.clear();
+			
 			}
-
+		argsSupportVector.clear();
 		}
 	| %empty
 ;
@@ -150,16 +163,22 @@ OPTIONAL_STATEMENTS: STATEMENTS
 ;
 
 STATEMENTS:    STATEMENT
-        | STATEMENT ';' STATEMENTS
+        | STATEMENTS';' STATEMENT
 ;
 
 STATEMENT: VARIABLE tASSIGN EXPRESSION
+	{}
 	|  PROCEDURE_STATEMENT
 	|  COMPOUND_STATEMENT
 	|  tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT
 	|  tWHILE EXPRESSION tDO STATEMENT
 ;
 VARIABLE: tIDENTIFIER
+	{
+		checkIfVariableExists($1);
+		std::cout << "VAR is " << $1 << std::endl;
+		$$ = $1;
+	}
 	| tIDENTIFIER '['EXPRESSION ']'
 ;
 
@@ -177,12 +196,12 @@ EXPRESSION_LIST: EXPRESSION
 	}
 ;
 
-EXPRESSION: SIMPLE_EXPRESSION 
+EXPRESSION: SIMPLE_EXPRESSION  {$$ = $1;}
 	| SIMPLE_EXPRESSION tRELATIONAL_OPERATOR SIMPLE_EXPRESSION
 ;
 
 SIMPLE_EXPRESSION: TERM
-	| tSIGN TERM
+	| tSIGN TERM {$$ = $2;}
 	| SIMPLE_EXPRESSION tSIGN TERM
 	| SIMPLE_EXPRESSION tOR TERM
 ;
@@ -191,11 +210,30 @@ TERM: FACTOR
 	| TERM tMULOP FACTOR
 ;
 
-FACTOR: VARIABLE
+FACTOR: VARIABLE 
+		{	
+		#if DEBUG_FACTOR == 1
+			std::cout<<"DEBUG_FACTOR: VARIABLE " << $1 << std::endl;
+		#endif
+			$$ = $1;
+		}
 	| tIDENTIFIER '(' EXPRESSION_LIST ')'
+	{
+	#if DEBUG_FACTOR == 1
+		std::cout<<"DEBUG_FACTOR: IDENTIFIER FUNCTION/PROCEDURE " << $1 << std::endl;
+		$$ = $1;
+	#endif
+	}
 	| tNUMBER
-	| '(' EXPRESSION ')' {$$ = $2;}
+	{
+		#if DEBUG_FACTOR == 1
+		std::cout<<"DEBUG_FACTOR: NUMBER " << $1 << std::endl;
+	#endif
+	}
+	| '(' EXPRESSION ')' 
+	{$$ = $2;}
 	| tNOT FACTOR
+	{}
 ;
 %%
 
