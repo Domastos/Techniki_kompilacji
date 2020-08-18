@@ -55,6 +55,7 @@ public:
     void setGlobal(bool val);
     bool getGlobal() const;
     int insertSymbol(Symbol);
+    Symbol getSymbolAtIndex(int index);
     int editSymbolAtIndex(int index, int token, int type, int adress);
     int lookUp(std::string name);
     int lookUpAndInsert(std::string name, int token, int type);

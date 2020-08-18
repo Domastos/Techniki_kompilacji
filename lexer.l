@@ -92,32 +92,33 @@ END_PROGRAM        .{1}
                            }
 
 
-{SIGN}      {yylval = getSignOperatorToken(std::string(yytext));
-             return tSIGN;}
+{SIGN}      {
+             yylval = getSignOperatorToken(std::string(yytext));
+             return tSIGN;
+             }
 
-{MULOP}     {yylval = getMulopOperatorToken(std::string(yytext));
-             return tMULOP;}
+{MULOP}     {
+             yylval = getMulopOperatorToken(std::string(yytext));
+             return tMULOP;
+             }
 
 ":="        {return tASSIGN;}
 
 
-{ID}        {/*if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tIDENTIFIER, 0));*/
-            
-            yylval = symboltable.lookUpAndInsert(yytext, tIDENTIFIER, 0); 
-            return tIDENTIFIER;}
+{ID}        {
+            yylval = symboltable.lookUpAndInsert(yytext, tIDENTIFIER, NONE); 
+            return tIDENTIFIER;
+            }
 
-{DIGITS}    {/*if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tINT));*/
-
+{DIGITS}    {
             yylval = symboltable.lookUpAndInsert(yytext, tNUMBER, tINT);
-            return tNUMBER;}
+            return tNUMBER;
+            }
 
-{NUMBER}    {/*if(!symboltable.lookUp(yytext))
-                symboltable.insertSymbol(Symbol(yytext, tNUMBER, tREAL));*/
-
+{NUMBER}    {
             yylval = symboltable.lookUpAndInsert(yytext, tNUMBER, tREAL);
-            return tNUMBER;}
+            return tNUMBER;
+            }
 
 {END_PROGRAM}   {return *yytext;}
 

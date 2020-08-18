@@ -27,8 +27,6 @@ bool Symbol::checkIsGlobal() const {return isGlobal;}
 bool Symbol::checkIsReference() const {return isReference;}
 
 
-
-
 SymbolTable::SymbolTable(){
     Symbol read("read", tPROCEDURE, 0);
 	read.setGlobalCondition(true);
@@ -46,6 +44,7 @@ SymbolTable::SymbolTable(){
 	vectorOfSymbols.push_back(lab0);
 }
 
+
 void SymbolTable::setGlobal(bool val){ Global = val;}
 bool SymbolTable::getGlobal() const {return Global;}
 
@@ -57,6 +56,10 @@ int SymbolTable::insertSymbol(Symbol symbol){
     symbol.setGlobalCondition(Global);
     vectorOfSymbols.push_back(symbol);
     return (int) (vectorOfSymbols.size() - 1);
+}
+
+Symbol SymbolTable::getSymbolAtIndex(int index){
+    return vectorOfSymbols[index];
 }
 
 int SymbolTable::editSymbolAtIndex(int index, int token, int type, int adress){
@@ -91,6 +94,7 @@ std::string SymbolTable::tokenToString(int token) {
 		return "null";
     }
 }
+
 
 int SymbolTable::lookUp(std::string name){
 
@@ -191,6 +195,7 @@ void SymbolTable::printTableHeader() {
     std::cout << std::setw(8) << "Type" << std::setw(3) << "|";
     std::cout << std::setw(8) << "Adress" << std::endl;
 }
+
 
 void SymbolTable::printSymbolTable(){
     int counter = 0;

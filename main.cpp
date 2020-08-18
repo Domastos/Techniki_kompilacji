@@ -37,15 +37,11 @@ int main(int argc, char *argv[])
     //start tworzenia pliku asm
     outputStream.open(getFileOutputName(argc, argv) + ".asm", std::ofstream::trunc);
 
+
     if (!outputStream.is_open()) {
 		std::cerr<<"Error: could not open the file"<<std::endl;
 		return -1;
 	}
-
-    std::stringstream writeASM;
-    writeASM << "        jump.i  #lab0                   ;jump.i  lab0";
-    outputStream.write(writeASM.str().c_str(), writeASM.str().size());
-
 
 
     yyparse();

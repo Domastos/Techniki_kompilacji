@@ -52,23 +52,27 @@
 
 %%
 COMPILATION_UNIT: PROGRAM {
-	// for(int i=0; i<argsSupportVector.size(); i++){
-	// 	std::cout << argsSupportVector[i] << std::endl;
-	// }
+
 }
 ;
 
 PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 		 {
+			 
 		  #if DEBUG == 1
 			std::cout << "DEBUG: program identifier: " << $2 << std::endl;
 			std::cout << std::string(40, '-') << std::endl;
 		   #endif
+
+			isGlobal = true;
+			makeasm.writeToStream("		jump.i	#" + symboltable.getSymbolAtIndex($2).getName());
+			makeasm.writeToStream(symboltable.getSymbolAtIndex($2).getName()+':');
+        	argsSupportVector.clear();
 		}
  	  DECLARATIONS
  	  SUBPROGRAM_DECLARATIONS 
 	   {
-			makeasm.writeToStream("lab0:");
+	
 	   }
  	  COMPOUND_STATEMENT
 	   '.'
@@ -104,11 +108,12 @@ DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';'
 			std::cout << "DEBUG: tVAR: " <<  $2 <<std::endl;
 			#endif
 
-			// for(int index = 0; index < (int) argsSupportVector.size(), index++;) {
 			for(auto &index : argsSupportVector){
+
 			#if DEBUG == 1
 			std::cout << "DEBUG: index: " << index <<std::endl;
 			#endif
+
 				switch($5) {
                 	case tINT:
 						symboltable.editSymbolAtIndex(index, tVAR, tINT, 4);
