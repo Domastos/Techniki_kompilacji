@@ -38,10 +38,10 @@ SymbolTable::SymbolTable(){
 	write.setReferenceCondition(false);
 	vectorOfSymbols.push_back(write);
 
-	Symbol lab0("lab0", LABEL, 0);
-	lab0.setGlobalCondition(true);
-	lab0.setReferenceCondition(false);
-	vectorOfSymbols.push_back(lab0);
+	// Symbol lab0("lab0", LABEL, 0);
+	// lab0.setGlobalCondition(true);
+	// lab0.setReferenceCondition(false);
+	// vectorOfSymbols.push_back(lab0);
 }
 
 
@@ -65,7 +65,8 @@ Symbol SymbolTable::getSymbolAtIndex(int index){
 int SymbolTable::editSymbolAtIndex(int index, int token, int type, int adress){
     vectorOfSymbols[index].setToken(token);
     vectorOfSymbols[index].setType(type);
-    vectorOfSymbols[index].setAddress(adress);
+    currentAddressStack += adress;
+    vectorOfSymbols[index].setAddress(currentAddressStack);
     return 0;
 }
 

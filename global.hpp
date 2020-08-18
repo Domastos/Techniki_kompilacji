@@ -20,6 +20,9 @@
 #define READ 		302
 #define LABEL 		303
 
+#define INT_SIZE    4
+#define REAL_SIZE   8
+
 extern std::ofstream outputStream;
 extern FILE* yyin;
 

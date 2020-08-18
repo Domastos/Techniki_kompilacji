@@ -57,8 +57,7 @@ COMPILATION_UNIT: PROGRAM {
 ;
 
 PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
-		 {
-			 
+		 { 
 		  #if DEBUG == 1
 			std::cout << "DEBUG: program identifier: " << $2 << std::endl;
 			std::cout << std::string(40, '-') << std::endl;
@@ -67,6 +66,7 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 			isGlobal = true;
 			makeasm.writeToStream("		jump.i	#" + symboltable.getSymbolAtIndex($2).getName());
 			makeasm.writeToStream(symboltable.getSymbolAtIndex($2).getName()+':');
+			symboltable.editSymbolAtIndex($2, LABEL, 0, 0);
         	argsSupportVector.clear();
 		}
  	  DECLARATIONS
@@ -116,10 +116,10 @@ DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';'
 
 				switch($5) {
                 	case tINT:
-						symboltable.editSymbolAtIndex(index, tVAR, tINT, 4);
+						symboltable.editSymbolAtIndex(index, tVAR, tINT, INT_SIZE);
 						break;
 					case tREAL:
-						symboltable.editSymbolAtIndex(index, tVAR, tREAL, 8);
+						symboltable.editSymbolAtIndex(index, tVAR, tREAL, REAL_SIZE);
 						break;
 					default:
 						std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
