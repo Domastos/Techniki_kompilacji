@@ -172,7 +172,11 @@ STATEMENTS:    STATEMENT
 ;
 
 STATEMENT: VARIABLE tASSIGN EXPRESSION
-	{}
+		{	
+			std::cout << $1 << std::endl;
+			std::cout << $3 << std::endl;
+			makeasm.genAssemblerCode(tASSIGN,$1,true,$3,true);
+		}
 	|  PROCEDURE_STATEMENT
 	|  COMPOUND_STATEMENT
 	|  tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT

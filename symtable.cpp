@@ -65,8 +65,8 @@ Symbol SymbolTable::getSymbolAtIndex(int index){
 int SymbolTable::editSymbolAtIndex(int index, int token, int type, int adress){
     vectorOfSymbols[index].setToken(token);
     vectorOfSymbols[index].setType(type);
-    currentAddressStack += adress;
     vectorOfSymbols[index].setAddress(currentAddressStack);
+    currentAddressStack += adress;
     return 0;
 }
 
