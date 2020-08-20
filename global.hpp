@@ -12,7 +12,7 @@
 #include "parser.hpp"
 #include "symtable.hpp"
 
-#define DEBUG       0
+#define DEBUG       1
 #define DEBUG_FACTOR 0
 #define DEBUG_EMITTER 1
 

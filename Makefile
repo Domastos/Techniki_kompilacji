@@ -29,11 +29,8 @@ lexer.cpp: lexer.l
 comp: main.cpp $(OBJMODELS)
 		$(CXX) $(CPPFLAGS) $^ -o $@
 
-run_t0: comp
-		./comp "Tests/pascal/t0.pas" "Tests/output/t0"
-
-run_t15: comp
-		./comp "Tests/pascal/t15.pas" "Tests/output/t15"
+run_t16: comp
+		./comp "Tests/pascal/t16.pas" "Tests/output/t16" > logs.txt
 
 valgrind: comp
 		valgrind -s ./comp "Tests/pascal/t0.pas" "Tests/output/t0"

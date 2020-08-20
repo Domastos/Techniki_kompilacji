@@ -66,52 +66,72 @@ int getMulopOperatorToken(std::string text){
         return -1;
 }
 
-bool MakeASM::checkType(int input1, bool isValue1, int input2, bool isValue2){
-    int type1 = isValue1? symboltable.getSymbolAtIndex(input1).getToken() : tINT;
-    int type2 = isValue2? symboltable.getSymbolAtIndex(input2).getToken() : tINT;
-    
-    if (type1 != type2){
-        if(type1 == tINT && type2 == tREAL) {
-            genAssemblerCode(REALTOINT, input1, isValue1, input2, isValue2);
-            return true;
-        } else if(type1 == tREAL && type2 == tINT) {
-            genAssemblerCode(INTTOREAL, input1, isValue1, input2, isValue2);
-            return true;
-        } else {
-            std::cerr << "ERROR: UNSUPORTED TYPE" << std::endl;
-            return false;
-        }
+
+std::string MakeASM::genOperand(int index) {
+    int token = symboltable.getSymbolAtIndex(index).getToken();
+    switch(token){
+        case tNUMBER:
+            return std::string("#") + std::string(symboltable.getSymbolAtIndex(index).getName());
+            break;
+        default:
+            return std::to_string(symboltable.getSymbolAtIndex(index).getAddress());
     }
-    return true;
+    return "";
+}
+
+std::string MakeASM::genMnemonikType(int index){
+        int type = symboltable.getSymbolAtIndex(index).getType();   
+        switch(type){
+            case tINT:
+                return ".i";
+                break;
+            case tREAL:
+                return ".r";
+                break;
+            default:
+                return ".?";
+                break;
+        }
 }
 
 
-void MakeASM::genAssemblerCode(int token, int input1, bool isValue1, int input2, bool isValue2) {
-    switch (token)
-    {
-    case tASSIGN:
-        if(checkType(input1, isValue1, input2, isValue2)){
 
-#if DEBUG_EMITTER == 1
-            std::cout << "DEBUG_EMITTER: writing mov to a stream" << std::endl;
-#endif
-            writeToStream("mov");
+void MakeASM::genAssignment(int lhs, int rhs){
+    int lhs_type = symboltable.getSymbolAtIndex(lhs).getType();
+    int rhs_type = symboltable.getSymbolAtIndex(rhs).getType();
+    
+    std::cout << "generating assignment!" << std::endl;
+    std::cout << "lhs_type" << lhs_type << std::endl;
+    std::cout << "lhs_name" << symboltable.getSymbolAtIndex(lhs).getName() << std::endl;
+    std::cout << "lhs_label" << symboltable.getSymbolAtIndex(lhs).getLabel() << std::endl;
+    
+    if(lhs_type == rhs_type){
+        writeToStream("\tmov", genMnemonikType(lhs), genOperand(lhs), genOperand(rhs));
+        std::cout << "writting assignment!" << std::endl;
+    } else {
+        if(lhs_type == tINT){
+            writeToStream("\trealtoint", "", genOperand(lhs), genOperand(rhs));
+            std::cout << "writting realtoint" << std::endl;
+        } else {
+            writeToStream("\tintoreal", "", genOperand(lhs), genOperand(rhs));
+            std::cout << "writting inttoreal" << std::endl;
         }
-        break;
-    case REALTOINT:
-            writeToStream("realtoint");
-        break;
-    case INTTOREAL:
-            writeToStream("inttoreal");
-        break;
-    default:
-        break;
     }
 }
 
 void MakeASM::writeToStream(std::string str) {
     stream << '\n'<< str;
 }
+
+void MakeASM::writeToStream(std::string mnemonic, std::string mnemonic_type,
+                   std::string l_operand, std::string r_operand){
+
+    stream << '\n' << mnemonic << mnemonic_type << '\t' 
+           << l_operand << ", " << r_operand;
+
+}
+
+            
 
 void MakeASM::writeToFile() {
     outputStream.write(stream.str().c_str(), stream.str().size());

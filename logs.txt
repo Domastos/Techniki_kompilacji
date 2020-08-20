@@ -1,0 +1,353 @@
+DEBUG: Starting lookup
+DEBUG: symtable size: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name example found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'example' to symboltable
+----------------------------------------
+DEBUG: Starting lookup
+DEBUG: symtable size: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name input found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'input' to symboltable
+----------------------------------------
+DEBUG: identifier num: 3
+DEBUG: Starting lookup
+DEBUG: symtable size: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name output found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'output' to symboltable
+----------------------------------------
+DEBUG: identifier list num: 4
+DEBUG: program identifier: 2
+----------------------------------------
+DEBUG: Starting lookup
+DEBUG: symtable size: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name i found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'i' to symboltable
+----------------------------------------
+DEBUG: identifier num: 5
+DEBUG: Starting lookup
+DEBUG: symtable size: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name j found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'j' to symboltable
+----------------------------------------
+DEBUG: identifier list num: 6
+DEBUG: Starting lookup
+DEBUG: symtable size: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name k found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'k' to symboltable
+----------------------------------------
+DEBUG: identifier list num: 7
+DEBUG: tVAR: 4
+DEBUG: index: 5
+DEBUG: index: 6
+DEBUG: index: 7
+DEBUG: Starting lookup
+DEBUG: symtable size: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name a found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'a' to symboltable
+----------------------------------------
+DEBUG: identifier num: 8
+DEBUG: Starting lookup
+DEBUG: symtable size: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name b found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'b' to symboltable
+----------------------------------------
+DEBUG: identifier list num: 9
+DEBUG: Starting lookup
+DEBUG: symtable size: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name c found
+DEBUG: returned val id -1 found
+DEBUG: adding name 'c' to symboltable
+----------------------------------------
+DEBUG: identifier list num: 10
+DEBUG: tVAR: 266
+DEBUG: index: 8
+DEBUG: index: 9
+DEBUG: index: 10
+DEBUG: Starting lookup
+DEBUG: symtable size: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: returned val id 5 found
+VAR is 5
+DEBUG: Starting lookup
+DEBUG: symtable size: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 3.0 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '3.0' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type266
+lhs_namei
+lhs_labelid
+writting realtoint
+DEBUG: Starting lookup
+DEBUG: symtable size: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: returned val id 6 found
+VAR is 6
+DEBUG: Starting lookup
+DEBUG: symtable size: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 15.0 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '15.0' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type266
+lhs_namej
+lhs_labelid
+writting realtoint
+DEBUG: Starting lookup
+DEBUG: symtable size: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: returned val id 7 found
+VAR is 7
+DEBUG: Starting lookup
+DEBUG: symtable size: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 2500.1510 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '2500.1510' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type266
+lhs_namek
+lhs_labelid
+writting realtoint
+DEBUG: Starting lookup
+DEBUG: symtable size: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: returned val id 8 found
+VAR is 8
+DEBUG: Starting lookup
+DEBUG: symtable size: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 3 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '3' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type267
+lhs_namea
+lhs_labelid
+writting inttoreal
+DEBUG: Starting lookup
+DEBUG: symtable size: 15
+DEBUG: cheking at index: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: returned val id 9 found
+VAR is 9
+DEBUG: Starting lookup
+DEBUG: symtable size: 15
+DEBUG: cheking at index: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 4 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '4' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type267
+lhs_nameb
+lhs_labelid
+writting inttoreal
+DEBUG: Starting lookup
+DEBUG: symtable size: 16
+DEBUG: cheking at index: 15
+DEBUG: cheking at index: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: returned val id 10 found
+VAR is 10
+DEBUG: Starting lookup
+DEBUG: symtable size: 16
+DEBUG: cheking at index: 15
+DEBUG: cheking at index: 14
+DEBUG: cheking at index: 13
+DEBUG: cheking at index: 12
+DEBUG: cheking at index: 11
+DEBUG: cheking at index: 10
+DEBUG: cheking at index: 9
+DEBUG: cheking at index: 8
+DEBUG: cheking at index: 7
+DEBUG: cheking at index: 6
+DEBUG: cheking at index: 5
+DEBUG: cheking at index: 4
+DEBUG: cheking at index: 3
+DEBUG: cheking at index: 2
+DEBUG: cheking at index: 1
+DEBUG: cheking at index: 0
+DEBUG: No identifier with name 15.00001 found
+DEBUG: returned val id -1 found
+DEBUG: adding name '15.00001' to symboltable
+----------------------------------------
+generating assignment!
+lhs_type267
+lhs_namec
+lhs_labelid
+writting assignment!
+DEBUG: size of symtable: 17
+----------------------------------------------------------------------------------------------------
+                                      Symbol table
+----------------------------------------------------------------------------------------------------
+N  |   Scope  | isReference  |      Name  |   Token  |    Type  |  Adress
+0  |  Global  |       False  |      read  |    proc
+1  |  Global  |       False  |     write  |    proc
+2  |  Global  |       False  |   example  |   label
+3  |  Global  |       False  |         i  |     var  |     266  |       0
+4  |  Global  |       False  |         j  |     var  |     266  |       4
+5  |  Global  |       False  |         k  |     var  |     266  |       8
+6  |  Global  |       False  |         a  |     var  |     267  |      12
+7  |  Global  |       False  |         b  |     var  |     267  |      20
+8  |  Global  |       False  |         c  |     var  |     267  |      28
+9  |  Global  |       False  |       3.0  |     num  |     267
+10  |  Global  |       False  |      15.0  |     num  |     267
+11  |  Global  |       False  | 2500.1510  |     num  |     267
+12  |  Global  |       False  |         3  |     num  |     266
+13  |  Global  |       False  |         4  |     num  |     266
+14  |  Global  |       False  |  15.00001  |     num  |     267

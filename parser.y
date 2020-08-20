@@ -173,9 +173,7 @@ STATEMENTS:    STATEMENT
 
 STATEMENT: VARIABLE tASSIGN EXPRESSION
 		{	
-			std::cout << $1 << std::endl;
-			std::cout << $3 << std::endl;
-			makeasm.genAssemblerCode(tASSIGN,$1,true,$3,true);
+			makeasm.genAssignment($1, $3);
 		}
 	|  PROCEDURE_STATEMENT
 	|  COMPOUND_STATEMENT
@@ -186,7 +184,7 @@ VARIABLE: tIDENTIFIER
 	{
 		checkIfVariableExists($1);
 		std::cout << "VAR is " << $1 << std::endl;
-		$$ = $1;
+		// $$ = $1;
 	}
 	| tIDENTIFIER '['EXPRESSION ']'
 ;

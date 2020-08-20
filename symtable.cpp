@@ -23,6 +23,7 @@ int Symbol::getToken() const {return token;}
 int Symbol::getType() const {return type;}
 int Symbol::getAddress() const {return address;}
 std::string Symbol::getName() const {return name;}
+std::string Symbol::getLabel() const {return tIDENTIFIER? "id" : "var";}
 bool Symbol::checkIsGlobal() const {return isGlobal;}
 bool Symbol::checkIsReference() const {return isReference;}
 
@@ -49,10 +50,12 @@ void SymbolTable::setGlobal(bool val){ Global = val;}
 bool SymbolTable::getGlobal() const {return Global;}
 
 int SymbolTable::insertSymbol(Symbol symbol){
+
 #if DEBUG == 1
-    std::cout << "DEBUG: adding name " << symbol.getName() << " to symboltable" << std::endl;
+    std::cout << "DEBUG: adding name " << '\'' << symbol.getName() << '\'' << " to symboltable" << std::endl;
     std::cout << std::string(40, '-') << std::endl;
 #endif
+
     symbol.setGlobalCondition(Global);
     vectorOfSymbols.push_back(symbol);
     return (int) (vectorOfSymbols.size() - 1);
@@ -99,25 +102,33 @@ std::string SymbolTable::tokenToString(int token) {
 
 int SymbolTable::lookUp(std::string name){
 
+    int index = (int) (vectorOfSymbols.size() - 1);
+
 #if DEBUG == 1
     std::cout << "DEBUG: Starting lookup" << std::endl;
+    std::cout << "DEBUG: symtable size: " << vectorOfSymbols.size() << std::endl;
 #endif
 
-    int index = (int) (vectorOfSymbols.size() - 1);
-    for(; index>=0; index--){
+    for(; index >= 0; index--){
+        std::cout <<  "DEBUG: cheking at index: " << index << std::endl;
         if(vectorOfSymbols[index].getName() == name)
             return index;
-    return -1;
     }
 
 #if DEBUG == 1
     std::cout << "DEBUG: No identifier with name " << name << " found" << std::endl;
 #endif
-    return 0;
+
+    return -1;
 }
 
 int SymbolTable::lookUpAndInsert(std::string name, int token, int type){
     int val = lookUp(name);
+
+#if DEBUG == 1
+    std::cout << "DEBUG: returned val id " << val << " found" << std::endl;
+#endif
+
     if(val == -1)
         val = insertSymbol(Symbol(name, token, type));
     return val;

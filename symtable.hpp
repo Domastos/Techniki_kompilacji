@@ -34,6 +34,7 @@ public:
     int getType() const;
     int getAddress() const;
     std::string getName() const;
+    std::string getLabel() const;
     bool checkIsGlobal() const;
     bool checkIsReference() const;
 
