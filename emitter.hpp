@@ -12,10 +12,16 @@ extern int getRelationalOperatorToken(std::string text);
 extern int getSignOperatorToken(std::string text);
 extern int getMulopOperatorToken(std::string text);
 
+enum Sign : int
+    {
+        Positive,
+        Negative
+    };
+
 class MakeASM {
 private:
     std::stringstream stream;
-    bool checkType(int input1, bool isValue1, int input2, bool isValue2);
+    bool checkType(int input1, int input2);
     
 
 public:
@@ -29,7 +35,7 @@ public:
 
     void genAssemblerCode(int token, int input1, bool isValue1, int input2, bool isValue2);
     void genAssignment(int lhs, int rhs);
+    int genExpression(std::string op, int lhs, int rhs);
     void writeToFile();
 };
-
 #endif

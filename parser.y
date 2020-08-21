@@ -184,7 +184,7 @@ VARIABLE: tIDENTIFIER
 	{
 		checkIfVariableExists($1);
 		std::cout << "VAR is " << $1 << std::endl;
-		// $$ = $1;
+		$$ = $1;
 	}
 	| tIDENTIFIER '['EXPRESSION ']'
 ;
@@ -208,9 +208,21 @@ EXPRESSION: SIMPLE_EXPRESSION  {$$ = $1;}
 ;
 
 SIMPLE_EXPRESSION: TERM
-	| tSIGN TERM {$$ = $2;}
+	| tSIGN TERM 
+	{ 	
+		switch($1){
+			case Sign::Positive:
+				$$ = $2;
+				break;
+			case Sign::Negative:
+				$$ = symboltable.insertSymbol(Symbol("Temp", tVAR, NONE), $2);
+		}
+	}
 	| SIMPLE_EXPRESSION tSIGN TERM
 	| SIMPLE_EXPRESSION tOR TERM
+	{
+		$$ = makeasm.genExpression("or", $1, $3);
+	}
 ;
 
 TERM: FACTOR

@@ -30,15 +30,9 @@ int getRelationalOperatorToken(std::string text)
 
 int getSignOperatorToken(std::string text)
 {   
-    enum Sign : int
-    {
-        Positive,
-        Negative
-    };
-
-    if(text == "<>") 
+    if(text == "+") 
         return  Sign::Positive;
-    else if(text == "<=") 
+    else if(text == "-") 
         return  Sign::Negative;
     else  
         return -1;
@@ -94,30 +88,80 @@ std::string MakeASM::genMnemonikType(int index){
         }
 }
 
+bool MakeASM::checkType(int lhs, int rhs) {
+    int lhs_type = symboltable.getSymbolAtIndex(lhs).getType();
+    int rhs_type = symboltable.getSymbolAtIndex(rhs).getType();
 
+    if(lhs_type != rhs_type) {
+        return 1;
+    }
+
+    return 0;
+}
 
 void MakeASM::genAssignment(int lhs, int rhs){
     int lhs_type = symboltable.getSymbolAtIndex(lhs).getType();
     int rhs_type = symboltable.getSymbolAtIndex(rhs).getType();
-    
+
+#if DEBUG_ASSIGNMENT == 1    
     std::cout << "generating assignment!" << std::endl;
     std::cout << "lhs_type" << lhs_type << std::endl;
     std::cout << "lhs_name" << symboltable.getSymbolAtIndex(lhs).getName() << std::endl;
     std::cout << "lhs_label" << symboltable.getSymbolAtIndex(lhs).getLabel() << std::endl;
-    
+#endif
+
+
     if(lhs_type == rhs_type){
         writeToStream("\tmov", genMnemonikType(lhs), genOperand(lhs), genOperand(rhs));
+    
+#if DEBUG_ASSIGNMENT == 1
         std::cout << "writting assignment!" << std::endl;
+#endif
+
     } else {
         if(lhs_type == tINT){
             writeToStream("\trealtoint", "", genOperand(lhs), genOperand(rhs));
+
+#if DEBUG_ASSIGNMENT == 1
             std::cout << "writting realtoint" << std::endl;
+#endif
+
         } else {
             writeToStream("\tintoreal", "", genOperand(lhs), genOperand(rhs));
+
+#if DEBUG_ASSIGNMENT == 1
             std::cout << "writting inttoreal" << std::endl;
+#endif
         }
     }
 }
+
+int MakeASM::genExpression(std::string op, int lhs, int rhs){
+    int dst = 0;
+    int lhs_type = symboltable.getSymbolAtIndex(lhs).getType();
+    int rhs_type = symboltable.getSymbolAtIndex(rhs).getType();
+
+    if(lhs_type == tREAL || rhs_type == tREAL){
+        dst = symboltable.insertSymbol(Symbol("Temp", NONE, tREAL));
+        if(lhs_type == tINT){
+            int temp = symboltable.insertSymbol(Symbol("Temp", NONE, tREAL));
+            genAssignment(temp, lhs);
+            lhs = temp;
+        } else
+        {
+            int temp = symboltable.insertSymbol(Symbol("Temp", NONE, tREAL));
+            genAssignment(temp, rhs);
+            rhs = temp;
+        }
+    } else {
+        dst = symboltable.insertSymbol(Symbol("Temp", NONE, tINT));
+    }
+    writeToStream(op, genMnemonikType(symboltable.getSymbolAtIndex(dst).getType()),
+                                                genOperand(lhs), genOperand(rhs));
+    return dst;
+}
+
+
 
 void MakeASM::writeToStream(std::string str) {
     stream << '\n'<< str;

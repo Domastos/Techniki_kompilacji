@@ -15,6 +15,7 @@
 #define DEBUG       1
 #define DEBUG_FACTOR 0
 #define DEBUG_EMITTER 1
+#define DEBUG_ASSIGNMENT 0
 
 
 #define WRITE 		301

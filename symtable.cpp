@@ -18,12 +18,12 @@ void Symbol::setGlobalCondition(bool global_condition){isGlobal = global_conditi
 void Symbol::setToken(int sToken){token = sToken;}
 void Symbol::setType(int sType){type = sType;}
 void Symbol::setAddress(int sAdress){address = sAdress;}
+void Symbol::setName(std::string sName){name = sName;}
 
 int Symbol::getToken() const {return token;}
 int Symbol::getType() const {return type;}
 int Symbol::getAddress() const {return address;}
 std::string Symbol::getName() const {return name;}
-std::string Symbol::getLabel() const {return tIDENTIFIER? "id" : "var";}
 bool Symbol::checkIsGlobal() const {return isGlobal;}
 bool Symbol::checkIsReference() const {return isReference;}
 
@@ -48,8 +48,36 @@ SymbolTable::SymbolTable(){
 
 void SymbolTable::setGlobal(bool val){ Global = val;}
 bool SymbolTable::getGlobal() const {return Global;}
+std::string SymbolTable::genTempName() {
+    std::string tempName = "$t" + std::to_string(tempSymbolCounter);
+    tempSymbolCounter++;
+    return tempName;
+}
 
-int SymbolTable::insertSymbol(Symbol symbol){
+// int SymbolTable::insertSymbol(Symbol symbol){
+
+// #if DEBUG == 1
+//     std::cout << "DEBUG: adding name " << '\'' << symbol.getName() << '\'' << " to symboltable" << std::endl;
+//     std::cout << std::string(40, '-') << std::endl;
+// #endif
+//     symbol.setGlobalCondition(Global);
+//     vectorOfSymbols.push_back(symbol);
+//     return (int) (vectorOfSymbols.size() - 1);
+// }
+
+
+int SymbolTable::insertSymbol(Symbol symbol, int token, int type){
+
+    //gen temp symbol
+    if(symbol.getName() == "Temp"){
+        symbol.setName(genTempName());
+        if(type){
+            symbol.setType(type);
+        }
+        if(token){
+            symbol.setType(vectorOfSymbols[token].getType());
+        }
+    }
 
 #if DEBUG == 1
     std::cout << "DEBUG: adding name " << '\'' << symbol.getName() << '\'' << " to symboltable" << std::endl;

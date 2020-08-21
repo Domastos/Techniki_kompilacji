@@ -32,8 +32,11 @@ comp: main.cpp $(OBJMODELS)
 run_t16: comp
 		./comp "Tests/pascal/t16.pas" "Tests/output/t16" > logs.txt
 
+run_arithtest: comp
+		./comp "Tests/pascal/arithtest.pas" "Tests/output/arithtest" > logs.txt
+
 valgrind: comp
-		valgrind -s ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
+		valgrind -s --leak-check=full ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
 
 cleanintermediate:
 		rm -f *.o

@@ -29,6 +29,7 @@ public:
     void setReferenceCondition(bool ref_condition);
     void setGlobalCondition(bool global_condition);
     void setAddress(int sAdress);
+    void setName(std::string sName);
 
     int getToken() const;
     int getType() const;
@@ -48,14 +49,17 @@ private:
     void printSymbolParameters(Symbol symbol);
     std::string tokenToString(int token);
     int currentAddressStack = 0;
-    int currentTempStack = 0;
+    int tempSymbolCounter = 0;
+    std::string genTempName();
     std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
+
 
 public:
     SymbolTable();
     void setGlobal(bool val);
     bool getGlobal() const;
-    int insertSymbol(Symbol);
+    // int insertSymbol(Symbol);
+    int insertSymbol(Symbol, int token = NONE, int type = NONE);
     Symbol getSymbolAtIndex(int index);
     int editSymbolAtIndex(int index, int token, int type, int adress);
     int lookUp(std::string name);
