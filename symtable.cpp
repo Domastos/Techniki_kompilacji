@@ -38,11 +38,6 @@ SymbolTable::SymbolTable(){
 	write.setGlobalCondition(true);
 	write.setReferenceCondition(false);
 	vectorOfSymbols.push_back(write);
-
-	// Symbol lab0("lab0", LABEL, 0);
-	// lab0.setGlobalCondition(true);
-	// lab0.setReferenceCondition(false);
-	// vectorOfSymbols.push_back(lab0);
 }
 
 
@@ -54,28 +49,21 @@ std::string SymbolTable::genTempName() {
     return tempName;
 }
 
-// int SymbolTable::insertSymbol(Symbol symbol){
 
-// #if DEBUG == 1
-//     std::cout << "DEBUG: adding name " << '\'' << symbol.getName() << '\'' << " to symboltable" << std::endl;
-//     std::cout << std::string(40, '-') << std::endl;
-// #endif
-//     symbol.setGlobalCondition(Global);
-//     vectorOfSymbols.push_back(symbol);
-//     return (int) (vectorOfSymbols.size() - 1);
-// }
-
-
-int SymbolTable::insertSymbol(Symbol symbol, int token, int type){
+int SymbolTable::insertSymbol(Symbol symbol){
 
     //gen temp symbol
-    if(symbol.getName() == "Temp"){
+    if(symbol.getName() == "$"){ //zmienic temp na inne
         symbol.setName(genTempName());
-        if(type){
-            symbol.setType(type);
-        }
-        if(token){
-            symbol.setType(vectorOfSymbols[token].getType());
+        symbol.setAddress(currentAddressStack);
+        switch (symbol.getType())
+        {
+        case tINT:
+            currentAddressStack += VarSizes::integer_size;
+            break;
+        case tREAL:
+            currentAddressStack += VarSizes::real_size;
+            break;
         }
     }
 
@@ -138,7 +126,9 @@ int SymbolTable::lookUp(std::string name){
 #endif
 
     for(; index >= 0; index--){
+#if DEBUG == 1
         std::cout <<  "DEBUG: cheking at index: " << index << std::endl;
+#endif
         if(vectorOfSymbols[index].getName() == name)
             return index;
     }
@@ -177,17 +167,7 @@ int SymbolTable::getAdress(std::string ID){
         return adress;
 }
 
-// int SymbolTable::setSymbolAdress(int type) {
-//     switch (type)
-//     {
-//     case tINT:
-//         setSymbolAdress
-//         break;
-    
-//     default:
-//         break;
-//     }
-// }
+
 
 void SymbolTable::printScope(bool isGlobal){
     if (isGlobal) {
@@ -235,7 +215,6 @@ void SymbolTable::printTableHeader() {
     std::cout << std::setw(8) << "Type" << std::setw(3) << "|";
     std::cout << std::setw(8) << "Adress" << std::endl;
 }
-
 
 void SymbolTable::printSymbolTable(){
     int counter = 0;

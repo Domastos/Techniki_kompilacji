@@ -58,8 +58,7 @@ public:
     SymbolTable();
     void setGlobal(bool val);
     bool getGlobal() const;
-    // int insertSymbol(Symbol);
-    int insertSymbol(Symbol, int token = NONE, int type = NONE);
+    int insertSymbol(Symbol);
     Symbol getSymbolAtIndex(int index);
     int editSymbolAtIndex(int index, int token, int type, int adress);
     int lookUp(std::string name);

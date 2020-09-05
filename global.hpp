@@ -12,20 +12,24 @@
 #include "parser.hpp"
 #include "symtable.hpp"
 
-#define DEBUG       1
+#define DEBUG       0
 #define DEBUG_FACTOR 0
-#define DEBUG_EMITTER 1
+#define DEBUG_EMITTER 0
 #define DEBUG_ASSIGNMENT 0
+#define DEBUG_EXPRESSION  0
 
 
 #define WRITE 		301
 #define READ 		302
 #define LABEL 		303
-#define INTTOREAL 	316
-#define REALTOINT 	317
 
 #define INT_SIZE    4
-#define REAL_SIZE   8
+
+enum VarSizes : int
+{
+    integer_size = 4,
+    real_size = 8
+};
 
 extern std::ofstream outputStream;
 extern FILE* yyin;

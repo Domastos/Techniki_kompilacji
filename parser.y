@@ -64,8 +64,8 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
 		   #endif
 
 			isGlobal = true;
-			makeasm.writeToStream("		jump.i	#" + symboltable.getSymbolAtIndex($2).getName());
-			makeasm.writeToStream(symboltable.getSymbolAtIndex($2).getName()+':');
+			makeasm.writeToStream(("	jump.i	#" + symboltable.getSymbolAtIndex($2).getName()), ";\tSTART OF PROGRAM");
+			makeasm.writeToStream((symboltable.getSymbolAtIndex($2).getName()+':'), ("\t\t\t;\texecuting " + symboltable.getSymbolAtIndex($2).getName()));
 			symboltable.editSymbolAtIndex($2, LABEL, 0, 0);
         	argsSupportVector.clear();
 		}
@@ -77,7 +77,7 @@ PROGRAM: tPROGRAM tIDENTIFIER '('IDENTIFIER_LIST')' ';'
  	  COMPOUND_STATEMENT
 	   '.'
 	   {
-		   makeasm.writeToStream("exit");
+		   makeasm.writeToStream("\texit", "\t\t\t;\tEND OF PROGRAM");
 		   makeasm.writeToFile();
 	   }
 ;
@@ -116,10 +116,10 @@ DECLARATIONS: DECLARATIONS tVAR IDENTIFIER_LIST ':' TYPE ';'
 
 				switch($5) {
                 	case tINT:
-						symboltable.editSymbolAtIndex(index, tVAR, tINT, INT_SIZE);
+						symboltable.editSymbolAtIndex(index, tVAR, tINT, VarSizes::integer_size);
 						break;
 					case tREAL:
-						symboltable.editSymbolAtIndex(index, tVAR, tREAL, REAL_SIZE);
+						symboltable.editSymbolAtIndex(index, tVAR, tREAL, VarSizes::real_size);
 						break;
 					default:
 						std::cerr << "ERROR: UNSUPPORTED TYPE" << std::endl;
@@ -191,6 +191,21 @@ VARIABLE: tIDENTIFIER
 
 PROCEDURE_STATEMENT: tIDENTIFIER
 	| tIDENTIFIER '(' EXPRESSION_LIST ')'
+	{
+		int write = symboltable.lookUp("write");
+		int read = symboltable.lookUp("read");
+		if($1 == write){
+			for(auto &index : argsSupportVector){
+				makeasm.writeToStream("\twrite", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\twrite", makeasm.genMnemonikType(index), index));
+			}
+		}
+		if($1 == read){
+			for(auto &index : argsSupportVector){
+				makeasm.writeToStream("\tread", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\tread", makeasm.genMnemonikType(index), index));
+			}
+		}
+	argsSupportVector.clear();
+	}
 ;
 
 EXPRESSION_LIST: EXPRESSION 
@@ -215,18 +230,20 @@ SIMPLE_EXPRESSION: TERM
 				$$ = $2;
 				break;
 			case Sign::Negative:
-				$$ = symboltable.insertSymbol(Symbol("Temp", tVAR, NONE), $2);
+				$$ = symboltable.insertSymbol(Symbol("$", tVAR, tINT));
 		}
 	}
-	| SIMPLE_EXPRESSION tSIGN TERM
-	| SIMPLE_EXPRESSION tOR TERM
-	{
-		$$ = makeasm.genExpression("or", $1, $3);
+	| SIMPLE_EXPRESSION tSIGN TERM{
+
+		$$ = makeasm.genExpression(tSIGN, $2, $1, $3);
 	}
+	| SIMPLE_EXPRESSION tOR TERM
 ;
 
 TERM: FACTOR
-	| TERM tMULOP FACTOR
+	| TERM tMULOP FACTOR {
+		$$ = makeasm.genExpression(tMULOP, $2, $1, $3);
+	}
 ;
 
 FACTOR: VARIABLE 
