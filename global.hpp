@@ -17,6 +17,7 @@
 #define DEBUG_EMITTER 0
 #define DEBUG_ASSIGNMENT 0
 #define DEBUG_EXPRESSION  0
+#define RELOP_EXPRESSION  1
 
 
 #define WRITE 		301

@@ -29,14 +29,23 @@ lexer.cpp lexer.hpp: lexer.l
 %.o: %.cpp %.hpp
 		$(CXX) $(CPPFLAGS) -c $< -o $@ 
 
-.PHONY: run_arithtest valgrind cleanintermediate clean
+.PHONY: run_arithtest run_iftest run_whiletest valgrind cleanintermediate clean
 
 run_arithtest: comp
 		./comp "Tests/pascal/arithtest.pas" "Tests/output/arithtest" > logs.txt
 
+run_iftest: comp
+		./comp "Tests/pascal/t0.pas" "Tests/output/t0" > logs.txt
+
+run_whiletest: comp
+		./comp "Tests/pascal/t1.pas" "Tests/output/t1" > logs.txt
 
 valgrind: comp
 		valgrind -s --leak-check=full --show-leak-kinds=all ./comp "Tests/pascal/arithtest.pas" "Tests/output/arithtest"
+		echo "################################################"
+		valgrind -s --leak-check=full --show-leak-kinds=all ./comp "Tests/pascal/t0.pas" "Tests/output/t0"
+		echo "################################################"
+		valgrind -s --leak-check=full --show-leak-kinds=all ./comp "Tests/pascal/t1.pas" "Tests/output/t1"
 
 cleanintermediate:
 		rm -f *.o

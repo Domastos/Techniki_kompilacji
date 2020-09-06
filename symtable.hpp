@@ -51,7 +51,9 @@ private:
     int currentAddressStack = 0;
     int tempSymbolCounter = 0;
     std::string genTempName();
+    std::string genLabelName();
     std::vector<Symbol> vectorOfSymbols; //vector of variables ma adresy do objektów
+    int labelCounter = 0;
 
 
 public:

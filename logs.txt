@@ -1,7 +1,12 @@
 VAR is 5
-VAR is 9
+VAR is 6
+VAR is 7
 VAR is 5
-VAR is 9
+VAR is 6
+VAR is 7
+VAR is 7
+VAR is 7
+VAR is 7
 ----------------------------------------------------------------------------------------------------
                                       Symbol table
 ----------------------------------------------------------------------------------------------------
@@ -11,17 +16,24 @@ N  |   Scope  | isReference  |      Name  |   Token  |    Type  |  Adress
 2  |  Global  |       False  |   example  |   label
 3  |  Global  |       False  |         x  |     var  |     266  |       0
 4  |  Global  |       False  |         y  |     var  |     266  |       4
-5  |  Global  |       False  |         z  |     var  |     266  |       8
-6  |  Global  |       False  |         i  |     var  |     267  |      12
-7  |  Global  |       False  |         j  |     var  |     267  |      20
-8  |  Global  |       False  |         k  |     var  |     267  |      28
-9  |  Global  |       False  |         1  |     num  |     266
-10  |  Global  |       False  |         2  |     num  |     266
-11  |  Global  |       False  |         3  |     num  |     266
-12  |  Global  |       False  |       $t0  |     var  |     266  |      36
-13  |  Global  |       False  |         4  |     num  |     266
-14  |  Global  |       False  |       $t1  |     var  |     266  |      40
-15  |  Global  |       False  |       $t2  |     var  |     266  |      44
-16  |  Global  |       False  |      15.2  |     num  |     267
-17  |  Global  |       False  |       $t3  |     var  |     267  |      48
-18  |  Global  |       False  |       $t4  |     var  |     267  |      56
+5  |  Global  |       False  |         g  |     var  |     267  |       8
+6  |  Global  |       False  |         h  |     var  |     267  |      16
+7  |  Global  |       False  |         6  |     num  |     266
+8  |  Global  |       False  |         5  |     num  |     266
+9  |  Global  |       False  |       $t0  |     var  |     266  |      24
+10  |  Global  |       False  |       $t1  |     var  |     267  |      28
+11  |  Global  |       False  |      lab0  |   label
+12  |  Global  |       False  |        20  |     num  |     266
+13  |  Global  |       False  |       $t2  |     var  |     267  |      36
+14  |  Global  |       False  |       $t3  |     var  |     267  |      44
+15  |  Global  |       False  |       $t4  |     var  |     267  |      52
+16  |  Global  |       False  |      lab1  |   label
+17  |  Global  |       False  |      lab2  |   label
+18  |  Global  |       False  |         0  |     num  |     266
+19  |  Global  |       False  |       $t5  |     var  |     267  |      60
+20  |  Global  |       False  |         1  |     num  |     266
+21  |  Global  |       False  |       $t6  |     var  |     267  |      68
+22  |  Global  |       False  |      lab3  |   label
+23  |  Global  |       False  |       $t7  |     var  |     267  |      76
+24  |  Global  |       False  |       $t8  |     var  |     267  |      84
+25  |  Global  |       False  |       $t9  |     var  |     267  |      92

@@ -46,7 +46,7 @@ int getMulopOperatorToken(std::string text){
 
 std::string MakeASM::genOperand(int index) {
     int token = symboltable.getSymbolAtIndex(index).getToken();
-    if(token==tNUMBER){
+    if(token==tNUMBER || token == LABEL){
         return std::string("#") + std::string(symboltable.getSymbolAtIndex(index).getName()); 
     } 
 #if DEBUG_EXPRESSION == 1
@@ -90,10 +90,10 @@ std::string MakeASM::genMnemonik(int operator_type, int token){
         return genSignMnemonik(token);
         break;
     case tRELATIONAL_OPERATOR:
-        // return genSignMnemonik(token);
+        return genRelopMnemonik(token);
         break;
     case tOR:
-        // return genSignMnemonik(token);
+        // return gen
         break;
     }
     return "";
@@ -103,16 +103,16 @@ std::string MakeASM::genMulopMnemonik(int token){
     switch (token)
     {
     case Mulop::Multiply:
-        return "\tmul";
+        return "\t\tmul";
         break;
     case Mulop::Divide:
-        return "\tdiv";
+        return "\t\tdiv";
         break;
     case Mulop::Modulo:
-        return "\tmod";
+        return "\t\tmod";
         break;
     case Mulop::And:
-        return "\tand";
+        return "\t\tand";
         break;
     default:
         return "";
@@ -125,11 +125,32 @@ std::string MakeASM::genSignMnemonik(int token){
     switch (token)
     {
     case Sign::Positive:
-        return "\tadd";
+        return "\t\tadd";
     case Sign::Negative:
-        return "\tsub";
+        return "\t\tsub";
     }
     return "";
+}
+
+std::string MakeASM::genRelopMnemonik(int token){
+    switch (token)
+    {
+    case RelationOperators::NotEqual:
+        return "\t\tjne";
+    case RelationOperators::Equal:
+        return "\t\tje";
+    case RelationOperators::GreaterEqual:
+        return "\t\tjge";
+    case RelationOperators::Greater:
+        return "\t\tjg";
+    case RelationOperators::LesserEqual:
+        return "\t\tjle";
+    case RelationOperators::Lesser:
+        return "\t\tjl";
+    default:
+        return "";
+        break;
+    }
 }
 
 bool MakeASM::checkType(int lhs, int rhs) {
@@ -155,7 +176,7 @@ void MakeASM::genAssignment(int lhs, int rhs){
 #endif
 
     if(lhs_type == rhs_type){
-        writeToStream("\tmov", genMnemonikType(lhs), genOperand(rhs), genOperand(lhs), 
+        writeToStream("\t\tmov", genMnemonikType(lhs), genOperand(rhs), genOperand(lhs), 
                                genAnotation("\tmov", genMnemonikType(lhs), rhs, lhs));
 
 #if DEBUG_ASSIGNMENT == 1
@@ -163,9 +184,17 @@ void MakeASM::genAssignment(int lhs, int rhs){
 #endif
     } else {
         if(lhs_type == tINT){
-            writeToStream("\trealtoint", genMnemonikType(rhs), genOperand(rhs), genOperand(lhs), genAnotation("\trealtoint", "", rhs, lhs));
+            int temp = symboltable.insertSymbol(Symbol("$", tVAR, tINT));
+            writeToStream("\t\trealtoint", genMnemonikType(rhs), genOperand(rhs), genOperand(temp), genAnotation("\trealtoint", "", rhs, temp));
+            // writeToStream("\tmov", genMnemonikType(lhs), genOperand(temp), genOperand(lhs), 
+            //                    genAnotation("\tmov", genMnemonikType(lhs), temp, lhs));
+            genAssignment(lhs, temp);
+
         } else {
-            writeToStream("\tinttoreal", genMnemonikType(rhs), genOperand(rhs), genOperand(lhs), genAnotation("\tinttoreal", "", rhs, lhs));
+            int temp = symboltable.insertSymbol(Symbol("$", tVAR, tREAL));
+            writeToStream("\t\tinttoreal", genMnemonikType(rhs), genOperand(rhs), genOperand(temp), genAnotation("\tinttoreal", "", rhs, temp));
+            writeToStream("\t\tmov", genMnemonikType(lhs), genOperand(temp), genOperand(lhs), 
+                               genAnotation("\tmov", genMnemonikType(lhs), temp, lhs));
 
     // writeToStream("\tmov", ".i", genOperand(rhs), genOperand(lhs), genAnotation("\tmov", genMnemonikType(lhs), rhs, lhs));
         }
@@ -195,7 +224,26 @@ int MakeASM::genExpression(int op_type, int op, int lhs, int rhs){
     else {
         dst = symboltable.insertSymbol(Symbol("$", tVAR, tINT));
     }
-    writeToStream(mnemonik, genMnemonikType(dst), genOperand(lhs), genOperand(rhs), genOperand(dst), genAnotation(mnemonik, genMnemonikType(dst), lhs, rhs, dst));
+
+    if(op_type == tRELATIONAL_OPERATOR){
+       int isTrue = symboltable.insertSymbol(Symbol("$l", LABEL, NONE));
+	   int isAfterTrue = symboltable.insertSymbol(Symbol("$l", LABEL, NONE));
+       
+       writeToStream(mnemonik, genMnemonikType(dst), genOperand(lhs), genOperand(rhs), genOperand(isTrue), genAnotation(mnemonik, genMnemonikType(dst), lhs, rhs, isTrue));
+
+       int FalseValue = symboltable.lookUpAndInsert("0", tNUMBER, tINT);
+       genAssignment(dst, FalseValue);       
+       writeToStream("\t\tjump.i", genOperand(isAfterTrue), genAnotation(""));
+       writeToStream((symboltable.getSymbolAtIndex(isTrue).getName() + ":"),  genAnotation(""));
+
+       int TrueValue = symboltable.lookUpAndInsert("1", tNUMBER, tINT);
+       genAssignment(dst, TrueValue);
+       writeToStream((symboltable.getSymbolAtIndex(isAfterTrue).getName() + ":"),  genAnotation(""));
+
+    }else{
+
+        writeToStream(mnemonik, genMnemonikType(dst), genOperand(lhs), genOperand(rhs), genOperand(dst), genAnotation(mnemonik, genMnemonikType(dst), lhs, rhs, dst));
+    }
     return dst;
 }
 

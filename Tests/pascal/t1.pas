@@ -3,6 +3,12 @@ var x, y: integer;
 var g,h:real;
 
 begin
-  g:=x+y*h;
+  x:=6;
+  y:=5;
+  g:=x+y;
+  while g<20 do
+  begin
+      g := g+1
+  end;
   write(g)
 end.

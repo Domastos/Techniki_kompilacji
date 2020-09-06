@@ -43,10 +43,17 @@ SymbolTable::SymbolTable(){
 
 void SymbolTable::setGlobal(bool val){ Global = val;}
 bool SymbolTable::getGlobal() const {return Global;}
+
 std::string SymbolTable::genTempName() {
     std::string tempName = "$t" + std::to_string(tempSymbolCounter);
     tempSymbolCounter++;
     return tempName;
+}
+
+std::string SymbolTable::genLabelName() {
+    std::string labelName = "lab" + std::to_string(labelCounter);
+    labelCounter++;
+    return labelName;
 }
 
 
@@ -65,6 +72,8 @@ int SymbolTable::insertSymbol(Symbol symbol){
             currentAddressStack += VarSizes::real_size;
             break;
         }
+    } else if(symbol.getName() == "$l"){
+        symbol.setName(genLabelName());
     }
 
 #if DEBUG == 1

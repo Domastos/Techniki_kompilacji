@@ -177,8 +177,39 @@ STATEMENT: VARIABLE tASSIGN EXPRESSION
 		}
 	|  PROCEDURE_STATEMENT
 	|  COMPOUND_STATEMENT
-	|  tIF EXPRESSION tTHEN STATEMENT tELSE STATEMENT
-	|  tWHILE EXPRESSION tDO STATEMENT
+	|  tIF EXPRESSION
+		{
+			$1 = symboltable.insertSymbol(Symbol("$l", LABEL, NONE)); // w j
+			makeasm.writeToStream(makeasm.genMnemonik(tRELATIONAL_OPERATOR, RelationOperators::Equal),
+										   	makeasm.genMnemonikType($2), makeasm.genOperand($2), "#0,", makeasm.genOperand($1));
+		}
+	 	tTHEN STATEMENT
+		{
+			$4 = symboltable.insertSymbol(Symbol("$l", LABEL, NONE));
+			makeasm.writeToStream("\t\tjump.i", makeasm.genOperand($4), "");
+			makeasm.writeToStream((makeasm.genOperandName($1) + ":"), "");
+		} 
+		tELSE STATEMENT
+		{
+			makeasm.writeToStream((makeasm.genOperandName($4) + ":"), "");
+		}
+	|  tWHILE
+		{
+			$1 = symboltable.insertSymbol(Symbol("$l", LABEL, NONE)); // w j
+			makeasm.writeToStream((makeasm.genOperandName($1) + ":"), "");
+		} 
+		EXPRESSION tDO 
+		{	
+			$4 = symboltable.insertSymbol(Symbol("$l", LABEL, NONE));
+			makeasm.writeToStream(makeasm.genMnemonik(tRELATIONAL_OPERATOR, RelationOperators::Equal),
+										  makeasm.genMnemonikType($3), makeasm.genOperand($3), "#0,", makeasm.genOperand($4));
+			
+		}
+		STATEMENT
+		{
+			makeasm.writeToStream("\t\tjump.i", makeasm.genOperand($1), "");
+			makeasm.writeToStream((makeasm.genOperandName($4) + ":"), "");
+		}
 ;
 VARIABLE: tIDENTIFIER
 	{
@@ -196,12 +227,12 @@ PROCEDURE_STATEMENT: tIDENTIFIER
 		int read = symboltable.lookUp("read");
 		if($1 == write){
 			for(auto &index : argsSupportVector){
-				makeasm.writeToStream("\twrite", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\twrite", makeasm.genMnemonikType(index), index));
+				makeasm.writeToStream("\t\twrite", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\twrite", makeasm.genMnemonikType(index), index));
 			}
 		}
 		if($1 == read){
 			for(auto &index : argsSupportVector){
-				makeasm.writeToStream("\tread", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\tread", makeasm.genMnemonikType(index), index));
+				makeasm.writeToStream("\t\tread", makeasm.genMnemonikType(index), std::to_string(symboltable.getSymbolAtIndex(index).getAddress()), makeasm.genAnotation("\tread", makeasm.genMnemonikType(index), index));
 			}
 		}
 	argsSupportVector.clear();
@@ -220,6 +251,9 @@ EXPRESSION_LIST: EXPRESSION
 
 EXPRESSION: SIMPLE_EXPRESSION  {$$ = $1;}
 	| SIMPLE_EXPRESSION tRELATIONAL_OPERATOR SIMPLE_EXPRESSION
+	{
+		$$ = makeasm.genExpression(tRELATIONAL_OPERATOR, $2, $1, $3);
+	}
 ;
 
 SIMPLE_EXPRESSION: TERM

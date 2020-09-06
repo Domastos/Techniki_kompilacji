@@ -43,7 +43,7 @@ private:
     bool checkType(int input1, int input2);
     std::string genMulopMnemonik(int token);
     std::string genSignMnemonik(int token);
-    
+    std::string genRelopMnemonik(int token);
 
 public:
     void writeToStream(std::string str, std::string anotation);
